@@ -35,7 +35,7 @@ class Cache_Service:
     text_hash = hashlib.md5(text.encode('utf-8')).hexdigest()
     return f'analysis:{text_hash}'
 
-  def get_cached_result(self, text: str) -> Optional[Analysis_Result]:
+  def getCachedResult(self, text: str) -> Optional[Analysis_Result]:
     """Получает результат из кэша."""
     if not self.redis:
       return None
@@ -54,7 +54,7 @@ class Cache_Service:
       logger.error(f'Ошибка чтения из кэша: {e}')
       return None
 
-  def set_cached_result(self, text: str, result: Analysis_Result) -> bool:
+  def setCachedResult(self, text: str, result: Analysis_Result) -> bool:
     """Сохраняет результат в кэш."""
     if not self.redis:
       return False
@@ -71,7 +71,7 @@ class Cache_Service:
       logger.error(f'Ошибка сохранения в кэш: {e}')
       return False
 
-  def clear_cache(self, text: Optional[str] = None) -> bool:
+  def clearCache(self, text: Optional[str] = None) -> bool:
     """Очищает кэш."""
     if not self.redis:
       return False
@@ -90,7 +90,7 @@ class Cache_Service:
       logger.error(f'Ошибка очистки кэша: {e}')
       return False
 
-  def get_stats(self) -> dict:
+  def getStats(self) -> dict:
     """Возвращает статистику кэша."""
     if not self.redis:
         return {"status": "not_connected"}

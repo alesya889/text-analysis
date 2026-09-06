@@ -72,7 +72,7 @@ class Analysis_Response(BaseModel):
   processing_time: float = Field(..., description='Время обработки в секундах')
 
 
-class BatchResponse(BaseModel):
+class Batch_Response(BaseModel):
   """Ответ на пакетный запрос"""
   status: str = Field('success', description='Статус ответа')
   results: List[Analysis_Result] = Field(..., description='Результаты анализа')
