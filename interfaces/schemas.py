@@ -1,10 +1,11 @@
 from pydantic import BaseModel, Field, validator
 from typing import List, Optional
+from config import settings
 
 
 class Analysis_Request(BaseModel):
   """Запрос на анализ одного текста"""
-  text: str = Field(..., min_length=1, max_length=10000,
+  text: str = Field(..., min_length=1, max_length=settings.max_text_length,
                       description='Текст для анализа')
 
   @validator('text')
@@ -17,7 +18,7 @@ class Analysis_Request(BaseModel):
 
 class Batch_Request(BaseModel):
   """Запрос на анализ нескольких текстов"""
-  texts: List[str] = Field(..., min_length=1, max_length=100,
+  texts: List[str] = Field(..., min_length=1, max_length=settings.max_batch_size,
                              description='Список текстов для анализа')
 
   @validator('texts')

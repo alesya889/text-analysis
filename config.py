@@ -2,9 +2,9 @@ class Settings():
   """Настройки приложения"""
 
   def __init__(self):
-    self.redis_url = 'redis://localhost:6379/0'
+    self.redis_url = 'redis://localhost:6379/0'  #URL для подключения к Redis.
     self.redis_ttl = 3600  #Время жизни кэша (1 час).
-    self.api_host = '0.0.0.0'
+    self.api_host = '0.0.0.0' #Доступно с любого компьютера.
     self.api_port = 8000
     self.max_text_length = 10000  #Максимальная длина текста в символах.
     self.max_batch_size = 100  #Максимальное количество текстов в пакете.

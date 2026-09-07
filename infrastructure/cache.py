@@ -1,6 +1,7 @@
 import redis, json, hashlib, logging
-from typing import Optional, Any
+from typing import Optional
 from interfaces.schemas import Analysis_Result
+from config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ class Cache_Service:
     redisHost: str = 'localhost',
     redisPort: int = 6379,
     redisDb: int = 0,
-    ttl: int = 6767
+    ttl: int = settings.redis_ttl
   ):
     """Инициализирует подключение к Redis."""
     self.ttl = ttl
@@ -31,7 +32,7 @@ class Cache_Service:
       self.redis = None
 
   def _getKey(self, text: str) -> str:
-    """Генерирует ключ для текста."""
+    """Генерирует ключ для текста (хеш)."""
     text_hash = hashlib.md5(text.encode('utf-8')).hexdigest()
     return f'analysis:{text_hash}'
 
@@ -64,7 +65,7 @@ class Cache_Service:
       value = json.dumps(result.dict(), ensure_ascii=False, default=str)
       self.redis.setex(key, self.ttl, value)
 
-      logger.info(f"✅ Сохранено в кэш: {key[:20]}... (TTL: {self.ttl}с)")
+      logger.info(f'Сохранено в кэш: {key[:20]}... (TTL: {self.ttl}с)')
       return True
 
     except Exception as e:
@@ -93,13 +94,13 @@ class Cache_Service:
   def getStats(self) -> dict:
     """Возвращает статистику кэша."""
     if not self.redis:
-        return {"status": "not_connected"}
+        return {'status': 'not_connected'}
     try:
-        keys = self.redis.keys("analysis:*")
+        keys = self.redis.keys('analysis:*')
         return {
-            "status": "connected",
-            "total_keys": len(keys),
-            "ttl": self.ttl
+            'status': 'connected',
+            'total_keys': len(keys),
+            'ttl': self.ttl
         }
     except Exception as e:
-        return {"status": "error", "message": str(e)}
+        return {'status': 'error', 'message': str(e)}
