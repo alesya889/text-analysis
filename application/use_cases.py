@@ -1,11 +1,19 @@
 from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
 from domain.interfaces import SyllableCounter, SentimentAnalyzer
 import re
-import infrastructure.flesch_calculators
+from infrastructure.flesch_calculators import flesch_index, flesch_kincaid
 
 def split_sentences(text: str) -> list[str]:
-    import re
-    return re.split(r'[.!?]', text)
+    list_of_possibilities = re.split(r'[.!?]', text)
+    true_list = []
+
+    for i in list_of_possibilities:
+        if i == '' or i.isspace():
+            continue
+        else:
+            true_list.append(i)
+
+    return true_list
 
 def split_words(text: str) -> list[str]:
     return re.findall(r'\b\w+\b', text)
@@ -69,6 +77,22 @@ def interpret_flesch(score: float, lang: Languages_Used) -> str:
             return Difficulty_Level.Hard.value
         elif 40 > score >= 0:
             return Difficulty_Level.Very_Hard.value
+
+
+def analyze_text(text: str,
+                 lang_detector: LanguageDetector,
+                 syllable_counter: SyllableCounter,
+                 sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
+    lang = lang_detector(text)
+    stats = compute_stats(text, syllable_counter)
+    flesch = flesch_index(stats, lang)
+    kincaid = flesch_kincaid(stats, lang)
+    polarity, subj = sentiment_analyzer(text)
+    # ... diversity, rare density
+    return AnalysisResult(...)
+
+def analyze_batch(texts: list[str], **deps) -> list[AnalysisResult]:
+    return [analyze_text(t, **deps) for t in texts]
 
 
 
