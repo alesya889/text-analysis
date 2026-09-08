@@ -16,6 +16,7 @@ def split_sentences(text: str) -> list[str]:
     return true_list
 
 def split_words(text: str) -> list[str]:
+    text = text.replace("'", '')
     return re.findall(r'\b\w+\b', text)
 
 def compute_stats(text: str, syllable_counter: SyllableCounter) -> TextStats:
