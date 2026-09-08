@@ -1,4 +1,7 @@
 import eng_to_ipa as ipa
+import pyphen
+
+
 
 
 def count_syllables_en(word: str) -> int:
@@ -6,7 +9,6 @@ def count_syllables_en(word: str) -> int:
 
     cnt = 0
     transcription = ipa.convert(word.lower())
-    print(transcription)
     monophthongs = ['ɪ', 'e', 'æ', 'ʌ', 'ʊ', 'ɒ', 'ə', 'iː', 'ɑː', 'ɔː', 'uː', 'ɜː', 'ɔ', 'ɑ', 'ɛ', 'i']
     diphthongs = ['eɪ', 'aɪ', 'ɔɪ', 'əʊ', 'aʊ', 'ɪə', 'eə', 'ʊə', 'ju', 'oʊ']
 
@@ -36,12 +38,19 @@ def count_syllables_ru(word: str) -> int:
 def count_syllables_ge(word: str) -> int:
     """Count syllables in German word"""
 
-    cnt = 0
-    diphthongs_letters = ['ei', 'ai', 'ey', 'ay', 'au', 'eu', 'äu' ]
+    dic = pyphen.Pyphen(lang='de_DE')
+    hyphenated = dic.inserted(word)
+    return hyphenated.count('-') + 1
 
-    for letter in word.lower():
-        if letter in diphthongs_letters:
-            cnt += 1
+def count_syllables_fr(word: str) -> int:
+    """Count syllables in French word"""
+
+    dic = pyphen.Pyphen(lang='fr_FR')
+    hyphenated = dic.inserted(word)
+    return hyphenated.count('-') + 1
+
+
+
 
 
 
