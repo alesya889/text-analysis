@@ -1,3 +1,5 @@
+from domain.types import Languages_Used
+from domain.interfaces import SyllableCounter
 import eng_to_ipa as ipa
 import pyphen
 
@@ -49,6 +51,15 @@ def count_syllables_fr(word: str) -> int:
     hyphenated = dic.inserted(word)
     return hyphenated.count('-') + 1
 
+def get_syllable_counter(lang: Languages_Used) -> SyllableCounter:
+    if lang == Languages_Used.EN:
+        return count_syllables_en
+    elif lang == Languages_Used.RU:
+        return count_syllables_ru
+    elif lang == Languages_Used.GE:
+        return count_syllables_ge
+    elif lang == Languages_Used.FR:
+        return count_syllables_fr
 
 
 
