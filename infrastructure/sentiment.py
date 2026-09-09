@@ -3,7 +3,7 @@ from textblob import TextBlob
 from infrastructure.language_detector import detect_language
 
 
-def analyze_sentiment(text: str) -> tuple[Polarity, float]:
+def analyzeSentiment(text: str) -> tuple[Polarity, float]:
     lang = detect_language(text)
 
     blob = TextBlob(text)
