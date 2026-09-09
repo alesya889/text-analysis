@@ -1,10 +1,10 @@
 from domain.types import Polarity, Languages_Used
 from textblob import TextBlob
-from infrastructure.language_detector import detect_language
+from infrastructure.language_detector import detectLanguage
 
 
 def analyzeSentiment(text: str) -> tuple[Polarity, float]:
-    lang = detect_language(text)
+    lang = detectLanguage(text)
 
     blob = TextBlob(text)
     polarity = blob.sentiment.polarity
