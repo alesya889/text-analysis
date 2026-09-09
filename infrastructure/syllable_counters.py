@@ -6,7 +6,7 @@ import pyphen
 
 
 
-def countSyllablesEN(word: str) -> int:
+def countSyllablesEn(word: str) -> int:
     """Count syllables in English word"""
 
     cnt = 0
@@ -56,7 +56,7 @@ def countSyllablesFr(word: str) -> int:
 
 def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
     if lang == Languages_Used.ENGLISH:
-        return countSyllablesEN
+        return countSyllablesEn
     elif lang == Languages_Used.RUSSIAN:
         return countSyllablesRu
     elif lang == Languages_Used.GERMAN:
