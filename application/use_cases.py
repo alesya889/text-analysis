@@ -1,7 +1,7 @@
 from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
 from domain.interfaces import SyllableCounter, SentimentAnalyzer
 import re
-from infrastructure.flesch_calculators import flesch_index, flesch_kincaid
+from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
 
 def split_sentences(text: str) -> list[str]:
     list_of_possibilities = re.split(r'[.!?]', text)
@@ -86,8 +86,8 @@ def analyze_text(text: str,
                  sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
     lang = lang_detector(text)
     stats = compute_stats(text, syllable_counter)
-    flesch = flesch_index(stats, lang)
-    kincaid = flesch_kincaid(stats, lang)
+    flesch = fleschIndex(stats, lang)
+    kincaid = fleschKincaid(stats, lang)
     polarity, subj = sentiment_analyzer(text)
     # ... diversity, rare density
     return AnalysisResult(...)

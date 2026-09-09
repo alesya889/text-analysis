@@ -4,7 +4,7 @@ from domain.interfaces import SyllableCounter
 from application.use_cases import compute_stats
 
 
-def flesch_index(stats: TextStats, lang: Languages_Used) -> float:
+def fleschIndex(stats: TextStats, lang: Languages_Used) -> float:
     """Calculate Flesch's Index."""
 
     if lang == Languages_Used.ENGLISH:
@@ -20,7 +20,7 @@ def flesch_index(stats: TextStats, lang: Languages_Used) -> float:
         return 206.835 - 1.015 * stats.avg_sentence_length - 84.6 * stats.avg_word_syllables
 
 
-def flesch_kincaid(stats: TextStats, lang: Languages_Used) -> float:
+def fleschKincaid(stats: TextStats, lang: Languages_Used) -> float:
     """Calculate Flesch's Kincaid Index"""
 
     if lang == Languages_Used.ENGLISH:
