@@ -6,7 +6,7 @@ import pyphen
 
 
 
-def count_syllables_en(word: str) -> int:
+def countSyllablesEN(word: str) -> int:
     """Count syllables in English word"""
 
     cnt = 0
@@ -26,7 +26,7 @@ def count_syllables_en(word: str) -> int:
     return cnt
 
 
-def count_syllables_ru(word: str) -> int:
+def countSyllablesRu(word: str) -> int:
     """Count syllables in Russian word"""
 
     vowels = ['а', 'о', 'е', "ё" , "у", 'ы', 'и', 'я', "ю" , "э"]
@@ -39,14 +39,14 @@ def count_syllables_ru(word: str) -> int:
     return cnt
 
 
-def count_syllables_ge(word: str) -> int:
+def countSyllablesGe(word: str) -> int:
     """Count syllables in German word"""
 
     dic = pyphen.Pyphen(lang='de_DE')
     hyphenated = dic.inserted(word)
     return hyphenated.count('-') + 1
 
-def count_syllables_fr(word: str) -> int:
+def countSyllablesFr(word: str) -> int:
     """Count syllables in French word"""
 
     dic = pyphen.Pyphen(lang='fr_FR')
@@ -54,15 +54,15 @@ def count_syllables_fr(word: str) -> int:
     return hyphenated.count('-') + 1
 
 
-def get_syllable_counter(lang: Languages_Used) -> SyllableCounter:
+def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
     if lang == Languages_Used.ENGLISH:
-        return count_syllables_en
+        return countSyllablesEN
     elif lang == Languages_Used.RUSSIAN:
-        return count_syllables_ru
+        return countSyllablesRu
     elif lang == Languages_Used.GERMAN:
-        return count_syllables_ge
+        return countSyllablesGe
     elif lang == Languages_Used.FRANCE:
-        return count_syllables_fr
+        return countSyllablesFr
 
 
 
