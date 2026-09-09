@@ -2,8 +2,10 @@ from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Di
 from domain.interfaces import SyllableCounter, SentimentAnalyzer
 import re
 from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
+from infrastructure.syllable_counters import getSyllableCounter
 
-def split_sentences(text: str) -> list[str]:
+
+def splitSentences(text: str) -> list[str]:
     list_of_possibilities = re.split(r'[.!?]', text)
     true_list = []
 
@@ -15,15 +17,15 @@ def split_sentences(text: str) -> list[str]:
 
     return true_list
 
-def split_words(text: str) -> list[str]:
+def splitWords(text: str) -> list[str]:
     text = text.replace("'", '')
     return re.findall(r'\b\w+\b', text)
 
-def compute_stats(text: str, syllable_counter: SyllableCounter) -> TextStats:
+def computeStats(text: str, syllable_counter: SyllableCounter) -> TextStats:
 
-    sentences = split_sentences(text)
+    sentences = splitSentences(text)
     cnt_sentences = len(sentences)
-    words = split_words(text)
+    words = splitWords(text)
     cnt_words = len(words)
 
     total_syllables = sum(syllable_counter(w) for w in words)
@@ -38,7 +40,7 @@ def compute_stats(text: str, syllable_counter: SyllableCounter) -> TextStats:
         avg_word_syllables=avg_word_syllables
     )
 
-def interpret_flesch(score: float, lang: Languages_Used) -> str:
+def interpretFlesch(score: float, lang: Languages_Used) -> str:
     if lang == Languages_Used.ENGLISH:
         if 100 >= score >= 90:
             return Difficulty_Level.Very_Easy.value
@@ -80,20 +82,20 @@ def interpret_flesch(score: float, lang: Languages_Used) -> str:
             return Difficulty_Level.Very_Hard.value
 
 
-def analyze_text(text: str,
-                 lang_detector: LanguageDetector,
-                 syllable_counter: SyllableCounter,
-                 sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
+def analyzeText(text: str,
+                lang_detector: LanguageDetector,
+                syllable_counter: SyllableCounter,
+                sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
     lang = lang_detector(text)
-    stats = compute_stats(text, syllable_counter)
+    stats = computeStats(text, syllable_counter)
     flesch = fleschIndex(stats, lang)
     kincaid = fleschKincaid(stats, lang)
     polarity, subj = sentiment_analyzer(text)
     # ... diversity, rare density
     return AnalysisResult(...)
 
-def analyze_batch(texts: list[str], **deps) -> list[AnalysisResult]:
-    return [analyze_text(t, **deps) for t in texts]
+def analyzeBatch(texts: list[str], **deps) -> list[AnalysisResult]:
+    return [analyzeText(t, **deps) for t in texts]
 
 
 
