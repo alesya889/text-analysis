@@ -5,7 +5,6 @@ import pyphen
 
 
 
-
 def countSyllablesEn(word: str) -> int:
     """Count syllables in English word"""
 
