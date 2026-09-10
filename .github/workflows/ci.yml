@@ -2,9 +2,9 @@ name: CI - Автоматическое тестирование
 
 on:
   push:
-    branches: [ main, develop, feature/** ]
+    branches: [ main, feature/** ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
 
 jobs:
   test:
