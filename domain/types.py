@@ -11,6 +11,8 @@ class Languages_Used(Enum):
   """
   ENGLISH = 'en'
   RUSSIAN = 'ru'
+  GERMAN = 'ge'
+  FRANCE = 'fr'
 
 class Polarity(Enum):
   Positive = 'positive'
@@ -25,7 +27,9 @@ class Difficulty_Level(Enum):
 
 FleshCoefficients: Dict[Languages_Used, Tuple[float, float, float]] = {
   Languages_Used.ENGLISH: (206.835, 1.015, 84.6),
-  Languages_Used.RUSSIAN: (206.835, 1.3, 60.1)
+  Languages_Used.RUSSIAN: (206.835, 1.3, 60.1),
+  Languages_Used.GERMAN: (206.835, 1.015, 84.6),
+  Languages_Used.FRANCE: (206.835, 1.015, 84.6),
 }
 
 @dataclass(frozen=True)
