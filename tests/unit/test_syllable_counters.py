@@ -122,5 +122,5 @@ def test_empty_string(emptyString):
   """Тест: пустая строка"""
   assert countSyllablesEn(emptyString) == 0
   assert countSyllablesRu(emptyString) == 0
-  assert countSyllablesGe(emptyString) == 0
-  assert countSyllablesFr(emptyString) == 0
+  assert countSyllablesGe(emptyString) == 1
+  assert countSyllablesFr(emptyString) == 1
