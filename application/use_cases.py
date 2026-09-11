@@ -143,7 +143,7 @@ def analyzeTextService(text: str,
     )
 
 
-def analyzeBatch(texts: list[str], **deps) -> list[AnalysisResult]:
+def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
     return [analyzeTextService(t, **deps) for t in texts]
 
 
