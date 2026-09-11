@@ -9,6 +9,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from application.use_cases import analyzeTextService, analyzeBatchService
 from infrastructure.cache import Cache_Service
 from interfaces.schemas import Analysis_Request, Analysis_Response, Batch_Request, Batch_Response, Analysis_Result
 
@@ -22,7 +23,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(
   CORSMiddleware,
   allow_origins = ['*'],
-  allow_credentials = False,
+  allow_credentials = True,
   allow_methods = ['*'],
   allow_headers = ['*']
 )
@@ -91,7 +92,7 @@ def generalErrorHandler(request: Request, exc: Exception):
     }
   )
 
-@app.get('/health')
+@app.get('/')
 def healthCheck():
   #Проверяем, что API работает.
   return {'status': 'ok'}
@@ -103,7 +104,7 @@ def analyzeText(request: Request, analysisRequest: Analysis_Request):
   #Запоминаем время начала обработки.
   startTime = time.perf_counter()
 
-  #Создаём временный результат анализа.
+  #Проверяем, есть ли результат в кэше.
   cachedResult = cacheService.getCachedResult(analysisRequest.text)
 
   if cachedResult:
@@ -114,28 +115,8 @@ def analyzeText(request: Request, analysisRequest: Analysis_Request):
           'processing_time': 0.0
       }
 
-  result = {
-    'language': 'ru',
-    'stats': {
-      'sentences': 1,
-      'words': len(analysisRequest.text.split()),
-      'syllables': 0,
-      'avg_sentence_length': 0.0,
-      'avg_word_length': 0.0
-    },
-    'flesch': {
-      'index': 0.0,
-      'level': 'unknown',
-      'grade_level': None
-    },
-    'sentiment': {
-      'polarity': 0.0,
-      'subjectivity': 0.0,
-      'sentiment': 'neutral'
-    },
-    'lexical_diversity': 0.0,
-    'rare_word_density': 0.0
-  }
+  #Выполняем полный анализ текста.
+  result = analyzeTextService(analysisRequest.text)
 
   #Сохраняем результат в кэш.
   cacheService.setCachedResult(analysisRequest.text, Analysis_Result(**result))
@@ -158,39 +139,18 @@ def analyzeBatch(request: Request, batchRequest: Batch_Request):
 
   for text in batchRequest.texts:
     #Проверяем, есть ли результат в кэше.
-    cachedResult = cacheService.getCachedResult(text)
+    cachedResult = cacheService.getCachedResult(batchRequest.text)
 
     if cachedResult:
       results.append(cachedResult)
       cachedResults.append(True)
       continue
 
-    #Создаём временный результат анализа.
-    result = {
-      'language': 'ru',
-      'stats': {
-        'sentences': 1,
-        'words': len(text.split()),
-        'syllables': 0,
-        'avg_sentence_length': 0.0,
-        'avg_word_length': 0.0
-      },
-      'flesch': {
-        'index': 0.0,
-        'level': 'unknown',
-        'grade_level': None
-      },
-      'sentiment': {
-        'polarity': 0.0,
-        'subjectivity': 0.0,
-        'sentiment': 'neutral'
-      },
-      'lexical_diversity': 0.0,
-      'rare_word_density': 0.0
-    }
+    # Выполняем полный анализ текста.
+    result = analyzeBatchService(batchRequest.text)
 
     #Сохраняем новый результат в кэш.
-    cacheService.setCachedResult(text, Analysis_Result(**result))
+    cacheService.setCachedResult(batchRequest.text, Analysis_Result(**result))
 
     results.append(result)
     cachedResults.append(False)

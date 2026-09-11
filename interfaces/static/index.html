@@ -15,14 +15,16 @@
   <div class="container" >
     <div class="row">
       <div class="col-12">
-        <h2>Анализатор текста</h2>
+        <h1>Анализатор текста</h1>
         <p class="subtitle">Определяем сложность, тональность и статистику</p>
       </div>
-      <div class="controls">
-        <textarea id="textInput" class="form-control" placeholder="Введите текст..." rows="5"></textarea>
-        <button id="analyzeBtn" class="btn btn-outline-primary">🔍 Анализировать</button>
-        <button id="clearBtn" class="btn btn-outline-danger">🗑️ Очистить</button>
-        <button id="exampleBtn" class="btn btn-outline-info">📝 Пример</button>
+      <div class="col-8 controls">
+        <textarea id="textInput" class="form-control" placeholder="Введите текст..." rows="6"></textarea>
+        <div class="buttons">
+          <button id="analyzeBtn" class="btn btn-outline-primary">🔍 Анализировать</button>
+          <button id="clearBtn" class="btn btn-outline-danger">🗑️ Очистить</button>
+          <button id="exampleBtn" class="btn btn-outline-info">📝 Пример</button>
+        </div>
       </div>
 
       <div id="result" style="display: none;">

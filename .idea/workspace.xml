@@ -8,6 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/use_cases.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/use_cases.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/infrastructure/flesch_calculators.py" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/flesch_calculators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/cli.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/static/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/static/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/static/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,12 +35,12 @@
     &quot;assignee&quot;: &quot;alesya889&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/alesya889/text-analysis&quot;,
-    &quot;accountId&quot;: &quot;e8a3c32f-7058-4e4e-83eb-d79e510b64a3&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/alesya889/text-analysis.git",
+    "accountId": "b33840e8-3aef-4396-a5fd-c0f1b2edb975"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -44,21 +49,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.flesch_calculators.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/core-algorithms&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.flesch_calculators.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/interfaces",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
+        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
       </set>
     </attachedChunks>
   </component>

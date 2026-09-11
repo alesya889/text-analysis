@@ -1,7 +1,7 @@
 from domain.types import Languages_Used
 from domain.types import TextStats, AnalysisResult
 from domain.interfaces import SyllableCounter
-from application.use_cases import computeStats
+
 
 
 def fleschIndex(stats: TextStats, lang: Languages_Used) -> float:

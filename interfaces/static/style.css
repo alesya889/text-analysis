@@ -1,24 +1,101 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background: #E3E9EA;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  background: #E5EDF2;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  margin-top: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    font-size: 5em;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 2em;
+    margin-bottom: 40px;
+}
+
+.controls {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttons {
+  text-align: center;
 }
 
 .form-control {
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
-    resize: vertical;
-    margin-bottom: 30px
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 20px;
+  resize: vertical;
+  margin-bottom: 30px
 }
 
+.btn {
+  font-size: 23px;
+  padding: 8px;
+}
+
+.btn:not(:last-child) {
+  margin-right: 35px;
+}
+
+#loading {
+    text-align: center;
+    font-size: 18px;
+    color: #667eea;
+    margin-top: 20px;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.stat-card {
+    background: #f7fafc;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.stat-card h4 {
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.stat-label {
+    color: #718096;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #2d3748;
+}

@@ -1,5 +1,5 @@
 from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
-from domain.interfaces import SyllableCounter, SentimentAnalyzer
+from domain.interfaces import SyllableCounter, SentimentAnalyzer, LanguageDetector
 import re
 from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
 from infrastructure.syllable_counters import getSyllableCounter
@@ -82,7 +82,7 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
             return Difficulty_Level.Very_Hard.value
 
 
-def analyzeText(text: str,
+def analyzeTextService(text: str,
                 lang_detector: LanguageDetector,
                 syllable_counter: SyllableCounter,
                 sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
@@ -94,7 +94,7 @@ def analyzeText(text: str,
     # ... diversity, rare density
     return AnalysisResult(...)
 
-def analyzeBatch(texts: list[str], **deps) -> list[AnalysisResult]:
+def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
     return [analyzeText(t, **deps) for t in texts]
 
 
