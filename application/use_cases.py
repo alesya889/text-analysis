@@ -2,7 +2,10 @@ from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Di
 from domain.interfaces import SyllableCounter, SentimentAnalyzer
 import re
 from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
+from infrastructure.language_detector import detectLanguage
 from infrastructure.syllable_counters import getSyllableCounter
+from infrastructure.dictionaries import rare_dict_ru, rare_dict_en, rare_dict_fr, rare_dict_de
+
 
 
 def splitSentences(text: str) -> list[str]:
@@ -82,7 +85,29 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
             return Difficulty_Level.Very_Hard.value
 
 
-def analyzeText(text: str,
+def lexicalDiversity(text: str) -> float:
+    words = splitWords(text.lower())
+    unique_words = set(words)
+
+    if len(words) == 0:
+        return 0
+
+    return len(unique_words) / len(words)
+
+def rare_word_density(text: str, freq_dict: dict) -> float:
+    words = splitWords(text.lower())
+    rare_word = 0
+
+    if not words:
+        return 0
+
+    for word in words:
+        if word in freq_dict:
+            rare_word += 1
+
+    return rare_word / len(words)
+
+def analyzeTextService(text: str,
                 lang_detector: LanguageDetector,
                 syllable_counter: SyllableCounter,
                 sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
@@ -90,12 +115,36 @@ def analyzeText(text: str,
     stats = computeStats(text, syllable_counter)
     flesch = fleschIndex(stats, lang)
     kincaid = fleschKincaid(stats, lang)
+    interpretation_fl = interpretFlesch(flesch, lang)
     polarity, subj = sentiment_analyzer(text)
-    # ... diversity, rare density
-    return AnalysisResult(...)
+    diversity = lexicalDiversity(text)
+    if lang == Languages_Used.ENGLISH:
+        freq_dict = rare_dict_en
+    elif lang == Languages_Used.RUSSIAN:
+        freq_dict = rare_dict_ru
+    elif lang == Languages_Used.GERMAN:
+        freq_dict = rare_dict_de
+    elif lang == Languages_Used.FRANCE:
+        freq_dict = rare_dict_fr
+    else:
+        freq_dict = rare_dict_en
+    rare_density = rare_word_density(text, freq_dict)
+
+    return AnalysisResult(
+        language=lang,
+        flesch_index=flesch,
+        flesch_kincaid=kincaid,
+        interpretation=interpretation_fl,
+        polarity=polarity,
+        subjectivity=subj,
+        lexical_diversity=diversity,
+        rare_word_density=rare_density,
+        stats=stats
+    )
+
 
 def analyzeBatch(texts: list[str], **deps) -> list[AnalysisResult]:
-    return [analyzeText(t, **deps) for t in texts]
+    return [analyzeTextService(t, **deps) for t in texts]
 
 
 
