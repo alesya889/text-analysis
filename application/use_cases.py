@@ -5,7 +5,36 @@ from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
 from infrastructure.language_detector import detectLanguage
 from infrastructure.syllable_counters import getSyllableCounter
 from infrastructure.dictionaries import rare_dict_ru, rare_dict_en, rare_dict_fr, rare_dict_de
+import re
 
+def validate_text(text: str) -> None:
+    """Check the text"""
+    ALLOWED_PATTERN = re.compile(
+        r'^['
+        r'А-Яа-яЁё'
+        r'A-Za-z'
+        r'ÄÖÜäöüß'
+        r'ÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸàâæçéèêëîïôœùûüÿ'
+        r'0-9'
+        r'\s'
+        r'.,!?;:—–\-\'"«»…()\[\]{}'
+        r']+$'
+    )
+
+    if not text or not text.strip():
+        raise ValueError("The text cannot be empty")
+
+    if len(text) > 100_000:
+        raise ValueError("Text is too long")
+
+    if not re.search(r'[A-Za-zА-Яа-яЁёÄÖÜäöüßÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸàâæçéèêëîïôœùûüÿ]', text):
+        raise ValueError("Text should contain only letters, numbers, punctuation")
+
+    if not ALLOWED_PATTERN.match(text):
+        for ch in text:
+            if not ALLOWED_PATTERN.match(ch):
+                raise ValueError(f"Not allowed symbol {ch!r}")
+        raise ValueError("Text doesn't have allowed symbols")
 
 
 def splitSentences(text: str) -> list[str]:
@@ -111,6 +140,7 @@ def analyzeTextService(text: str,
                 lang_detector: LanguageDetector,
                 syllable_counter: SyllableCounter,
                 sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
+    validateText(text)
     lang = lang_detector(text)
     stats = computeStats(text, syllable_counter)
     flesch = fleschIndex(stats, lang)
