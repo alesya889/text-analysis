@@ -9,9 +9,13 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from application.use_cases import analyzeBatchService
+from application.use_cases import analyzeTextService, analyzeBatchService
 from infrastructure.cache import Cache_Service
 from interfaces.schemas import Analysis_Request, Analysis_Response, Batch_Request, Batch_Response, Analysis_Result
+
+from infrastructure.language_detector import detectLanguage
+from infrastructure.syllable_counters import getSyllableCounter
+from infrastructure.sentiment import analyzeSentiment
 
 app = FastAPI(title='Text Analyzer')
 
@@ -116,9 +120,10 @@ def analyzeText(request: Request, analysisRequest: Analysis_Request):
       }
 
   #Выполняем полный анализ текста.
-  result = analyzeBatchService(analysisRequest.text)
+  result = analyzeTextService(analysisRequest.text, detectLanguage, getSyllableCounter, analyzeSentiment)
 
   #Сохраняем результат в кэш.
+  print(type(result))
   cacheService.setCachedResult(analysisRequest.text, Analysis_Result(**result))
 
   return {

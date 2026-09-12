@@ -60,7 +60,7 @@ def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
     words = splitWords(text)
     cntWords = len(words)
 
-    totalSyllables = sum(syllableCounter(w) for w in words)
+    totalSyllables = sum(count for w in words if (count := syllableCounter(w)) is not None)
     avgSentenceLength =  cntWords / cntSentences if cntSentences > 0 else 0
     avgWordSyllables = totalSyllables / cntWords if cntWords > 0 else 0
 
@@ -73,6 +73,8 @@ def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
     )
 
 def interpretFlesch(score: float, lang: Languages_Used) -> str:
+    if score is None:
+        return "Unable to calculate readability (unsupported language or invalid text)"
     score = max(0, min(100, score))
     if lang == Languages_Used.ENGLISH:
         if 100 >= score >= 90:
