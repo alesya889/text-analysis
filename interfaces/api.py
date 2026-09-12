@@ -120,12 +120,10 @@ def analyzeText(request: Request, analysisRequest: Analysis_Request):
       }
 
   #Выполняем полный анализ текста.
-  result = analyzeTextService(analysisRequest.text, detectLanguage, getSyllableCounter, analyzeSentiment)
+  result = analyzeTextService(analysisRequest.text)
 
   #Сохраняем результат в кэш.
-  print(type(result))
-  cacheService.setCachedResult(analysisRequest.text, Analysis_Result(**result))
-
+  cacheService.setCachedResult(text, Analysis_Result(**result))
   return {
     'status': 'success',
     'result': result,

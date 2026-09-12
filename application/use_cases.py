@@ -4,6 +4,7 @@ import re
 from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
 from infrastructure.language_detector import detectLanguage
 from infrastructure.syllable_counters import getSyllableCounter
+from infrastructure.sentiment import analyzeSentiment
 from infrastructure.dictionaries import rareDictRu, rareDictEn, rareDictFr, rareDictDe
 import re
 
@@ -142,18 +143,39 @@ def rareWordDensity(text: str, freqDict: dict) -> float:
 
     return rareWord / len(words)
 
-def analyzeTextService(text: str,
-                       langDetector: LanguageDetector,
-                       syllableCounter: SyllableCounter,
-                       sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
-    validateText(text)
-    lang = langDetector(text)
+
+def analyzeTextService(text: str) -> dict:
+    text = validateText(text)
+    lang = detectLanguage(text)
+
+    # Конвертируем enum в строку!
+    if lang == Languages_Used.RUSSIAN:
+        lang_str = 'ru'
+    elif lang == Languages_Used.ENGLISH:
+        lang_str = 'en'
+    elif lang == Languages_Used.GERMAN:
+        lang_str = 'de'
+    elif lang == Languages_Used.FRANCE:
+        lang_str = 'fr'
+    else:
+        lang_str = 'en'  # по умолчанию
+
     stats = computeStats(text, syllableCounter)
     flesch = fleschIndex(stats, lang)
     kincaid = fleschKincaid(stats, lang)
     interpretationFl = interpretFlesch(flesch, lang)
-    polarity, subj = sentimentAnalyzer(text)
+    polarity, subj = analyzeSentiment(text)
+
+    # Определяем настроение
+    if polarity > 0.1:
+        sentiment_label = 'positive'
+    elif polarity < -0.1:
+        sentiment_label = 'negative'
+    else:
+        sentiment_label = 'neutral'
+
     diversity = lexicalDiversity(text)
+
     if lang == Languages_Used.ENGLISH:
         freqDict = rareDictEn
     elif lang == Languages_Used.RUSSIAN:
@@ -164,19 +186,25 @@ def analyzeTextService(text: str,
         freqDict = rareDictFr
     else:
         freqDict = rareDictEn
+
     rareDensity = rareWordDensity(text, freqDict)
 
-    return AnalysisResult(
-        language=lang,
-        flesch_index=flesch,
-        flesch_kincaid=kincaid,
-        interpretation=interpretationFl,
-        polarity=polarity,
-        subjectivity=subj,
-        lexical_diversity=diversity,
-        rare_word_density=rareDensity,
-        stats=stats
-    )
+    return {
+        'language': lang_str,  # Используем строку вместо enum!
+        'stats': stats.model_dump() if hasattr(stats, 'model_dump') else stats.dict(),
+        'flesch': {
+            'index': flesch,
+            'level': interpretationFl,
+            'grade_level': kincaid
+        },
+        'sentiment': {
+            'polarity': polarity,
+            'subjectivity': subj,
+            'sentiment': sentiment_label
+        },
+        'lexical_diversity': diversity,
+        'rare_word_density': rareDensity
+    }
 
 
 def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
