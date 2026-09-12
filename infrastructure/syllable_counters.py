@@ -3,9 +3,6 @@ from domain.interfaces import SyllableCounter
 import eng_to_ipa as ipa
 import pyphen
 
-
-
-
 def countSyllablesEn(word: str) -> int:
     """Count syllables in English word"""
 
@@ -48,7 +45,6 @@ def countSyllablesGe(word: str) -> int:
 
 def countSyllablesFr(word: str) -> int:
     """Count syllables in French word"""
-
     dic = pyphen.Pyphen(lang='fr_FR')
     hyphenated = dic.inserted(word)
     return hyphenated.count('-') + 1 if len(word) > 0 else 0
@@ -63,7 +59,8 @@ def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
         return countSyllablesGe
     elif lang == Languages_Used.FRANCE:
         return countSyllablesFr
-
+    else:
+        raise ValueError(f"Unsupported language: {lang}")
 
 
 
