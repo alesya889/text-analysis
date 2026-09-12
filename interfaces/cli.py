@@ -33,7 +33,7 @@ def analyze(text, filePath, batchFilePath):
   analyzeBatchFile(batchFilePath)
 
 def sendTextToApi(text):
-  # Отправляем один текст в API.
+  #Отправляем один текст в API.
 
   response = httpx.post(
 f'{API_URL}/analyze',

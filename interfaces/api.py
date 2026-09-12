@@ -9,7 +9,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from application.use_cases import analyzeTextService, analyzeBatchService
+from application.use_cases import analyzeBatchService
 from infrastructure.cache import Cache_Service
 from interfaces.schemas import Analysis_Request, Analysis_Response, Batch_Request, Batch_Response, Analysis_Result
 
@@ -116,7 +116,7 @@ def analyzeText(request: Request, analysisRequest: Analysis_Request):
       }
 
   #Выполняем полный анализ текста.
-  result = analyzeTextService(analysisRequest.text)
+  result = analyzeBatchService(analysisRequest.text)
 
   #Сохраняем результат в кэш.
   cacheService.setCachedResult(analysisRequest.text, Analysis_Result(**result))
@@ -139,7 +139,7 @@ def analyzeBatch(request: Request, batchRequest: Batch_Request):
 
   for text in batchRequest.texts:
     #Проверяем, есть ли результат в кэше.
-    cachedResult = cacheService.getCachedResult(batchRequest.text)
+    cachedResult = cacheService.getCachedResult(text)
 
     if cachedResult:
       results.append(cachedResult)
@@ -147,10 +147,10 @@ def analyzeBatch(request: Request, batchRequest: Batch_Request):
       continue
 
     # Выполняем полный анализ текста.
-    result = analyzeBatchService(batchRequest.text)
+    result = analyzeBatchService(text)
 
     #Сохраняем новый результат в кэш.
-    cacheService.setCachedResult(batchRequest.text, Analysis_Result(**result))
+    cacheService.setCachedResult(text, Analysis_Result(**result))
 
     results.append(result)
     cachedResults.append(False)

@@ -44,14 +44,14 @@ def countSyllablesGe(word: str) -> int:
 
     dic = pyphen.Pyphen(lang='de_DE')
     hyphenated = dic.inserted(word)
-    return hyphenated.count('-') + 1
+    return hyphenated.count('-') + 1 if len(word) > 0 else 0
 
 def countSyllablesFr(word: str) -> int:
     """Count syllables in French word"""
 
     dic = pyphen.Pyphen(lang='fr_FR')
     hyphenated = dic.inserted(word)
-    return hyphenated.count('-') + 1
+    return hyphenated.count('-') + 1 if len(word) > 0 else 0
 
 
 def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
@@ -63,8 +63,3 @@ def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
         return countSyllablesGe
     elif lang == Languages_Used.FRANCE:
         return countSyllablesFr
-
-
-
-
-
