@@ -4,12 +4,12 @@ import re
 from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
 from infrastructure.language_detector import detectLanguage
 from infrastructure.syllable_counters import getSyllableCounter
-from infrastructure.dictionaries import rare_dict_ru, rare_dict_en, rare_dict_fr, rare_dict_de
+from infrastructure.dictionaries import rareDictRu, rareDictEn, rareDictFr, rareDictDe
 import re
 
-def validate_text(text: str) -> None:
+def validateText(text: str) -> None:
     """Check the text"""
-    ALLOWED_PATTERN = re.compile(
+    allowedPattern = re.compile(
         r'^['
         r'А-Яа-яЁё'
         r'A-Za-z'
@@ -30,49 +30,50 @@ def validate_text(text: str) -> None:
     if not re.search(r'[A-Za-zА-Яа-яЁёÄÖÜäöüßÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸàâæçéèêëîïôœùûüÿ]', text):
         raise ValueError("Text should contain only letters, numbers, punctuation")
 
-    if not ALLOWED_PATTERN.match(text):
+    if not allowedPattern.match(text):
         for ch in text:
-            if not ALLOWED_PATTERN.match(ch):
+            if not allowedPattern.match(ch):
                 raise ValueError(f"Not allowed symbol {ch!r}")
         raise ValueError("Text doesn't have allowed symbols")
 
 
 def splitSentences(text: str) -> list[str]:
-    list_of_possibilities = re.split(r'[.!?]', text)
-    true_list = []
+    listOfPossibilities = re.split(r'[.!?]', text)
+    trueList = []
 
-    for i in list_of_possibilities:
+    for i in listOfPossibilities:
         if i == '' or i.isspace():
             continue
         else:
-            true_list.append(i)
+            trueList.append(i)
 
-    return true_list
+    return trueList
 
 def splitWords(text: str) -> list[str]:
     text = text.replace("'", '')
     return re.findall(r'\b\w+\b', text)
 
-def computeStats(text: str, syllable_counter: SyllableCounter) -> TextStats:
+def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
 
     sentences = splitSentences(text)
-    cnt_sentences = len(sentences)
+    cntSentences = len(sentences)
     words = splitWords(text)
-    cnt_words = len(words)
+    cntWords = len(words)
 
-    total_syllables = sum(syllable_counter(w) for w in words)
-    avg_sentence_length =  cnt_words / cnt_sentences if cnt_sentences > 0 else 0
-    avg_word_syllables = total_syllables / cnt_words if cnt_words > 0 else 0
+    totalSyllables = sum(syllableCounter(w) for w in words)
+    avgSentenceLength =  cntWords / cntSentences if cntSentences > 0 else 0
+    avgWordSyllables = totalSyllables / cntWords if cntWords > 0 else 0
 
     return TextStats(
-        sentence_count=cnt_sentences,
-        word_count=cnt_words,
-        syllable_count=total_syllables,
-        avg_sentence_length=avg_sentence_length,
-        avg_word_syllables=avg_word_syllables
+        sentence_count=cntSentences,
+        word_count=cntWords,
+        syllable_count=totalSyllables,
+        avg_sentence_length=avgSentenceLength,
+        avg_word_syllables=avgWordSyllables
     )
 
 def interpretFlesch(score: float, lang: Languages_Used) -> str:
+    score = max(0, min(100, score))
     if lang == Languages_Used.ENGLISH:
         if 100 >= score >= 90:
             return Difficulty_Level.Very_Easy.value
@@ -83,7 +84,7 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
         elif 30 > score >= 0:
             return Difficulty_Level.Very_Hard.value
 
-    if lang == Languages_Used.RUSSIAN:
+    elif lang == Languages_Used.RUSSIAN:
         if 100 >= score >= 80:
             return Difficulty_Level.Very_Easy.value
         elif 80 > score >= 60:
@@ -93,7 +94,7 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
         elif 30 > score >= 0:
             return Difficulty_Level.Very_Hard.value
 
-    if lang == Languages_Used.GERMAN:
+    elif lang == Languages_Used.GERMAN:
         if 100 >= score >= 80:
             return Difficulty_Level.Very_Easy.value
         elif 80 > score >= 60:
@@ -103,7 +104,7 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
         elif 40 > score >= 0:
             return Difficulty_Level.Very_Hard.value
 
-    if lang == Languages_Used.FRANCE:
+    elif lang == Languages_Used.FRANCE:
         if 100 >= score >= 80:
             return Difficulty_Level.Very_Easy.value
         elif 80 > score >= 60:
@@ -112,63 +113,66 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
             return Difficulty_Level.Hard.value
         elif 40 > score >= 0:
             return Difficulty_Level.Very_Hard.value
+
+    else:
+        return "Unknown"
 
 
 def lexicalDiversity(text: str) -> float:
     words = splitWords(text.lower())
-    unique_words = set(words)
+    uniqueWords = set(words)
 
     if len(words) == 0:
         return 0
 
-    return len(unique_words) / len(words)
+    return len(uniqueWords) / len(words)
 
-def rare_word_density(text: str, freq_dict: dict) -> float:
+def rareWordDensity(text: str, freqDict: dict) -> float:
     words = splitWords(text.lower())
-    rare_word = 0
+    rareWord = 0
 
     if not words:
         return 0
 
     for word in words:
-        if word in freq_dict:
-            rare_word += 1
+        if word in freqDict:
+            rareWord += 1
 
-    return rare_word / len(words)
+    return rareWord / len(words)
 
 def analyzeTextService(text: str,
-                lang_detector: LanguageDetector,
-                syllable_counter: SyllableCounter,
-                sentiment_analyzer: SentimentAnalyzer) -> AnalysisResult:
+                       langDetector: LanguageDetector,
+                       syllableCounter: SyllableCounter,
+                       sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
     validateText(text)
-    lang = lang_detector(text)
-    stats = computeStats(text, syllable_counter)
+    lang = langDetector(text)
+    stats = computeStats(text, syllableCounter)
     flesch = fleschIndex(stats, lang)
     kincaid = fleschKincaid(stats, lang)
-    interpretation_fl = interpretFlesch(flesch, lang)
-    polarity, subj = sentiment_analyzer(text)
+    interpretationFl = interpretFlesch(flesch, lang)
+    polarity, subj = sentimentAnalyzer(text)
     diversity = lexicalDiversity(text)
     if lang == Languages_Used.ENGLISH:
-        freq_dict = rare_dict_en
+        freqDict = rareDictEn
     elif lang == Languages_Used.RUSSIAN:
-        freq_dict = rare_dict_ru
+        freqDict = rareDictRu
     elif lang == Languages_Used.GERMAN:
-        freq_dict = rare_dict_de
+        freqDict = rareDictDe
     elif lang == Languages_Used.FRANCE:
-        freq_dict = rare_dict_fr
+        freqDict = rareDictFr
     else:
-        freq_dict = rare_dict_en
-    rare_density = rare_word_density(text, freq_dict)
+        freqDict = rareDictEn
+    rareDensity = rareWordDensity(text, freqDict)
 
     return AnalysisResult(
         language=lang,
         flesch_index=flesch,
         flesch_kincaid=kincaid,
-        interpretation=interpretation_fl,
+        interpretation=interpretationFl,
         polarity=polarity,
         subjectivity=subj,
         lexical_diversity=diversity,
-        rare_word_density=rare_density,
+        rare_word_density=rareDensity,
         stats=stats
     )
 
