@@ -1,14 +1,15 @@
-from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
-from domain.interfaces import SyllableCounter, SentimentAnalyzer
 import re
+from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
+from domain.interfaces import SyllableCounter, SentimentAnalyzer, LanguageDetector
 from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
 from infrastructure.language_detector import detectLanguage
 from infrastructure.syllable_counters import getSyllableCounter
 from infrastructure.dictionaries import rareDictRu, rareDictEn, rareDictFr, rareDictDe
-import re
+
 
 def validateText(text: str) -> None:
-    """Check the text"""
+    # Проверяет валидность текста, основываясь на длине, допустимых символах
+
     allowedPattern = re.compile(
         r'^['
         r'А-Яа-яЁё'
@@ -36,8 +37,9 @@ def validateText(text: str) -> None:
                 raise ValueError(f'Not allowed symbol {ch!r}')
         raise ValueError("Text doesn't have allowed symbols")
 
-
 def splitSentences(text: str) -> list[str]:
+    # Разделяет строку на список строк-предложений
+
     listOfPossibilities = re.split(r'[.!?]', text)
     trueList = []
 
@@ -50,10 +52,14 @@ def splitSentences(text: str) -> list[str]:
     return trueList
 
 def splitWords(text: str) -> list[str]:
+    # Разделяет строку на отдельные слова, собирая их в список
+
     text = text.replace("'", '')
     return re.findall(r'\b\w+\b', text)
 
 def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
+    # Собирает все технические параметры о тексте, используя отдельные функции
+
 
     sentences = splitSentences(text)
     cntSentences = len(sentences)
@@ -73,6 +79,8 @@ def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
     )
 
 def interpretFlesch(score: float, lang: Languages_Used) -> str:
+    # Интерпретирует результаты индекса Флеша в зависимости от языка, адаптирует невалидные баллы
+
     score = max(0, min(100, score))
     if lang == Languages_Used.ENGLISH:
         if 100 >= score >= 90:
@@ -117,17 +125,19 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
     else:
         return 'Unknown'
 
-
 def lexicalDiversity(text: str) -> float:
+    # Вычисляет долю уникальных слов в тексте
+
     words = splitWords(text.lower())
     uniqueWords = set(words)
 
     if len(words) == 0:
         return 0
-
     return len(uniqueWords) / len(words)
 
 def rareWordDensity(text: str, freqDict: dict) -> float:
+    # Вычисляет долю редких слов в тексте, ссылаясь на собранные словари
+
     words = splitWords(text.lower())
     rareWord = 0
 
@@ -144,6 +154,8 @@ def analyzeTextService(text: str,
                        langDetector: LanguageDetector,
                        syllableCounter: SyllableCounter,
                        sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
+    # Итоговая функция полностью анализирующая текст с помощью переданных ей параметров
+
     validateText(text)
     lang = langDetector(text)
     stats = computeStats(text, syllableCounter)
@@ -152,6 +164,7 @@ def analyzeTextService(text: str,
     interpretationFl = interpretFlesch(flesch, lang)
     polarity, subj = sentimentAnalyzer(text)
     diversity = lexicalDiversity(text)
+
     if lang == Languages_Used.ENGLISH:
         freqDict = rareDictEn
     elif lang == Languages_Used.RUSSIAN:
@@ -176,8 +189,8 @@ def analyzeTextService(text: str,
         stats=stats
     )
 
-
 def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
+    # Итоговая функция для большего массива текстов
     return [analyzeTextService(t, **deps) for t in texts]
 
 
