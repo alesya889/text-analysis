@@ -22,18 +22,18 @@ def validateText(text: str) -> None:
     )
 
     if not text or not text.strip():
-        raise ValueError("The text cannot be empty")
+        raise ValueError('The text cannot be empty')
 
     if len(text) > 100_000:
-        raise ValueError("Text is too long")
+        raise ValueError('Text is too long')
 
     if not re.search(r'[A-Za-zА-Яа-яЁёÄÖÜäöüßÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸàâæçéèêëîïôœùûüÿ]', text):
-        raise ValueError("Text should contain only letters, numbers, punctuation")
+        raise ValueError('Text should contain only letters, numbers, punctuation')
 
     if not allowedPattern.match(text):
         for ch in text:
             if not allowedPattern.match(ch):
-                raise ValueError(f"Not allowed symbol {ch!r}")
+                raise ValueError(f'Not allowed symbol {ch!r}')
         raise ValueError("Text doesn't have allowed symbols")
 
 
@@ -115,7 +115,7 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
             return Difficulty_Level.Very_Hard.value
 
     else:
-        return "Unknown"
+        return 'Unknown'
 
 
 def lexicalDiversity(text: str) -> float:
