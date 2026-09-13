@@ -1,5 +1,6 @@
 from domain.types import Polarity, Languages_Used
 from textblob import TextBlob
+from deep_translator import GoogleTranslator
 from infrastructure.language_detector import detectLanguage
 
 
@@ -12,7 +13,7 @@ def analyzeSentiment(text: str) -> tuple[Polarity, float]:
 
     if lang != Languages_Used.ENGLISH:
         try:
-            translated = blob.translate(to='en')
+            translated = GoogleTranslator(source='auto', target='en').translate(text)
             if translated and str(translated).strip():
                 blob = TextBlob(str(translated))
                 polarity = blob.sentiment.polarity
