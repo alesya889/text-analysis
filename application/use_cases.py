@@ -52,10 +52,7 @@ def splitSentences(text: str) -> list[str]:
     return trueList
 
 def splitWords(text: str) -> list[str]:
-    # Разделяет строку на отдельные слова, собирая их в список
-
-    text = text.replace("'", '')
-    return re.findall(r'\b\w+\b', text)
+    return re.findall(r"\b[\w']+\b", text)
 
 def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
     # Собирает все технические параметры о тексте, используя отдельные функции
