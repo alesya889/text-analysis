@@ -48,11 +48,11 @@ class TestCountSyllablesRu:
   """Тесты для русского языка"""
 
   def test_simple_words(self):
-    """Тест: простые слова"""
-    assert countSyllablesRu("привет") == 2
-    assert countSyllablesRu("мама") == 2
-    assert countSyllablesRu("мир") == 1
-    assert countSyllablesRu("кот") == 1
+    """Тест: простые слова c не буквенными знаками"""
+    assert countSyllablesRu("привет_") == 2
+    assert countSyllablesRu("мама1") == 2
+    assert countSyllablesRu("мир**") == 1
+    assert countSyllablesRu("%кот") == 1
 
   def test_complex_words(self):
     """Тест: сложные слова"""
@@ -122,5 +122,5 @@ def test_empty_string(emptyString):
   """Тест: пустая строка"""
   assert countSyllablesEn(emptyString) == 0
   assert countSyllablesRu(emptyString) == 0
-  assert countSyllablesGe(emptyString) == 1
-  assert countSyllablesFr(emptyString) == 1
+  assert countSyllablesGe(emptyString) == 0
+  assert countSyllablesFr(emptyString) == 0
