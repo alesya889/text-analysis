@@ -16,5 +16,5 @@ def detectLanguage(text: str) -> Languages_Used:
     elif detected == 'fr':
         return Languages_Used.FRANCE
     else:
-        return None
+        return Languages_Used.ENGLISH
 
