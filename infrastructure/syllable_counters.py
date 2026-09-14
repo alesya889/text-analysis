@@ -61,7 +61,3 @@ def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
         return countSyllablesFr
     else:
         raise ValueError(f"Unsupported language: {lang}")
-
-
-
-

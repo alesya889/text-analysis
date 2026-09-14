@@ -1,5 +1,3 @@
-from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
-from domain.interfaces import SyllableCounter, SentimentAnalyzer
 import re
 from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
 from domain.interfaces import SyllableCounter, SentimentAnalyzer, LanguageDetector
@@ -149,14 +147,14 @@ def rareWordDensity(text: str, freqDict: dict) -> float:
 
     return rareWord / len(words)
 
-def analyzeTextService(text: str,
-                       langDetector: LanguageDetector,
-                       syllableCounter: SyllableCounter,
-                       sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
-    # Итоговая функция полностью анализирующая текст с помощью переданных ей параметров
+     # ← добавить импорт
 
+def analyzeTextService(text: str,
+                        langDetector: LanguageDetector,
+                        sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
     validateText(text)
     lang = langDetector(text)
+    syllableCounter = getSyllableCounter(lang)
     stats = computeStats(text, syllableCounter)
     flesch = fleschIndex(stats, lang)
     kincaid = fleschKincaid(stats, lang)
@@ -191,8 +189,3 @@ def analyzeTextService(text: str,
 def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
     # Итоговая функция для большего массива текстов
     return [analyzeTextService(t, **deps) for t in texts]
-
-
-
-
-

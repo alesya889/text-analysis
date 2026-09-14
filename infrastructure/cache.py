@@ -62,7 +62,7 @@ class Cache_Service:
 
     try:
       key = self._getKey(text)
-      value = json.dumps(result.dict(), ensure_ascii=False, default=str)
+      value = json.dumps(result, ensure_ascii=False, default=str)
       self.redis.setex(key, self.ttl, value)
 
       logger.info(f'Сохранено в кэш: {key[:20]}... (TTL: {self.ttl}с)')

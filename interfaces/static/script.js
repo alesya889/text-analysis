@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const examples = [
     'В лесу родилась ёлочка, в лесу она росла. Зимой и летом стройная, зелёная была.',
     'The quick brown fox jumps over the lazy dog. This is a test sentence.',
-    'Сложный текст для проверки. Много разных слов и предложений. Нужно проверить все метрики.'
+    'Сложный текст для проверки. Много разных слов и предложений. Нужно проверить все метрики.',
+    'Ты не бойся ночи, ведь я рядом. Я ангелом буду твоим навсегда.'
   ];
 
   // Кнопка "Пример"
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     resultDiv.style.display = 'none';
     analyzeBtn.disabled = true;
 
-        // Отправляем запрос ХУЙНЯ СОБАЧКА
+        // Отправляем запрос
         fetch(API_URL + '/analyze', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -87,15 +88,15 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="stat-grid">
                 <div class="stat-card">
                     <h4>Предложения</h4>
-                    <p>${result.stats.sentences}</p>
+                    <p>${result.stats.sentence_count}</p>
                 </div>
                 <div class="stat-card">
                     <h4>Слова</h4>
-                    <p>${result.stats.words}</p>
+                    <p>${result.stats.word_count}</p>
                 </div>
                 <div class="stat-card">
                     <h4>Слоги</h4>
-                    <p>${result.stats.syllables}</p>
+                    <p>${result.stats.syllable_count}</p>
                 </div>
                 <div class="stat-card">
                     <h4>Средняя длина</h4>

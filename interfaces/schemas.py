@@ -55,27 +55,32 @@ class Sentiment_Metrics(BaseModel):
   sentiment: str = Field(..., description='Настроение: positive/neutral/negative')
 
 
-class Analysis_Result(BaseModel):
-  """Полный результат анализа"""
-  language: str = Field(..., description='Язык текста (ru/en/de/fr)')
-  stats: Text_Stats = Field(..., description='Статистика текста')
-  flesch: Flesch_Metrics = Field(..., description='Метрики Флеша')
-  sentiment: Sentiment_Metrics = Field(..., description='Метрики тональности')
-  lexical_diversity: float = Field(..., ge=0, le=1, description='Лексическое разнообразие')
-  rare_word_density: float = Field(..., ge=0, le=1, description='Плотность редких слов')
+class StatsSchema(BaseModel):
+    sentence_count: int
+    word_count: int
+    syllable_count: int
+    avg_sentence_length: float
+    avg_word_syllables: float
 
+class Analysis_Result(BaseModel):
+    language: str
+    flesch_index: float
+    flesch_kincaid: float
+    interpretation: str
+    polarity: str
+    subjectivity: float
+    lexical_diversity: float
+    rare_word_density: float
+    stats: StatsSchema
 
 class Analysis_Response(BaseModel):
-  """Ответ на запрос анализа"""
-  status: str = Field('success', description='Статус ответа')
-  result: Analysis_Result = Field(..., description='Результат анализа')
-  cached: bool = Field(False, description='Взят ли результат из кэша')
-  processing_time: float = Field(..., description='Время обработки в секундах')
-
+    status: str
+    result: Analysis_Result
+    cached: bool
+    processing_time: float
 
 class Batch_Response(BaseModel):
-  """Ответ на пакетный запрос"""
-  status: str = Field('success', description='Статус ответа')
-  results: List[Analysis_Result] = Field(..., description='Результаты анализа')
-  cached: List[bool] = Field(..., description='Какие результаты из кэша')
-  total_time: float = Field(..., description='Общее время обработки')
+    status: str
+    results: list[Analysis_Result]
+    cached: list[bool]
+    total_time: float

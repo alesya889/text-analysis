@@ -5,17 +5,14 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from slowapi.extension import _rate_limit_exceeded_handler
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from application.use_cases import analyzeTextService, analyzeBatchService
+from application.use_cases import analyzeTextService
 from infrastructure.cache import Cache_Service
-from interfaces.schemas import Analysis_Request, Analysis_Response, Batch_Request, Batch_Response, Analysis_Result
-
-from infrastructure.language_detector import detectLanguage
-from infrastructure.syllable_counters import getSyllableCounter
-from infrastructure.sentiment import analyzeSentiment
+from interfaces.schemas import Analysis_Request, Batch_Request, Analysis_Response, Batch_Response, Analysis_Result
+from infrastructure.dependencies import get_language_detector, get_sentiment_analyzer
 
 app = FastAPI(title='Text Analyzer')
 
@@ -104,7 +101,11 @@ def healthCheck():
 
 @app.post('/analyze', response_model=Analysis_Response)
 @limiter.limit('60/minute')
-def analyzeText(request: Request, analysisRequest: Analysis_Request):
+def analyzeText(
+        request: Request,
+        analysisRequest: Analysis_Request,
+        lang_detector = Depends(get_language_detector),
+        sentiment_analyzer = Depends(get_sentiment_analyzer)):
   #Запоминаем время начала обработки.
   startTime = time.perf_counter()
 
@@ -120,20 +121,26 @@ def analyzeText(request: Request, analysisRequest: Analysis_Request):
       }
 
   #Выполняем полный анализ текста.
-  result = analyzeTextService(analysisRequest.text)
+  result = analyzeTextService(
+      analysisRequest.text,
+      lang_detector,
+      sentiment_analyzer)
 
   #Сохраняем результат в кэш.
-  cacheService.setCachedResult(text, Analysis_Result(**result))
+  cacheService.setCachedResult(analysisRequest.text, result)
   return {
     'status': 'success',
-    'result': result,
+    'result': result.to_dict(),
     'cached': False,
     'processing_time': time.perf_counter() - startTime
   }
 
 @app.post('/analyze-batch', response_model=Batch_Response)
 @limiter.limit('60/minute')
-def analyzeBatch(request: Request, batchRequest: Batch_Request):
+def analyzeBatch(request: Request,
+                 batchRequest: Batch_Request,
+                 lang_detector=Depends(get_language_detector),
+                 sentiment_analyzer=Depends(get_sentiment_analyzer)):
   # Запоминаем время начала обработки.
   startTime = time.perf_counter()
 
@@ -150,12 +157,15 @@ def analyzeBatch(request: Request, batchRequest: Batch_Request):
       continue
 
     # Выполняем полный анализ текста.
-    result = analyzeBatchService(text)
+    result = analyzeTextService(
+      text,
+      lang_detector,
+      sentiment_analyzer)
 
     #Сохраняем новый результат в кэш.
-    cacheService.setCachedResult(text, Analysis_Result(**result))
+    cacheService.setCachedResult(text, result.to_dict())
 
-    results.append(result)
+    results.append(result.to_dict())
     cachedResults.append(False)
 
   return {
