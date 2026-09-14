@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <title>Text Analyzer</title>
 
@@ -25,14 +25,15 @@
           <button id="clearBtn" class="btn btn-outline-danger">🗑️ Очистить</button>
           <button id="exampleBtn" class="btn btn-outline-info">📝 Пример</button>
         </div>
+
+        <div id="loading" style="display: none;">
+          <p class="text-start">⏳ Анализируем...</p>
+        </div>
       </div>
 
       <div id="result" style="display: none;">
         <h2>Результаты</h2>
         <div id="resultContent"></div>
-      </div>
-      <div id="loading" style="display: none;">
-        ⏳ Анализируем...
       </div>
 
       <script src="script.js"></script>

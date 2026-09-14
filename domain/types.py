@@ -9,10 +9,10 @@ class Languages_Used(Enum):
   """
   Все поддерживаемые языки.
   """
-  ENGLISH = 'en'
-  RUSSIAN = 'ru'
-  GERMAN = 'ge'
-  FRANCE = 'fr'
+  ENGLISH = 'English'
+  RUSSIAN = 'Russian'
+  GERMAN = 'German'
+  FRANCE = 'French'
 
 class Polarity(Enum):
   Positive = 'positive'
@@ -20,10 +20,10 @@ class Polarity(Enum):
   Neutral = 'neutral'
 
 class Difficulty_Level(Enum):
-  Very_Easy = 'very_easy'
+  Very_Easy = 'very easy'
   Easy = 'easy'
   Hard = 'hard'
-  Very_Hard = 'very_hard'
+  Very_Hard = 'very hard'
 
 FleshCoefficients: Dict[Languages_Used, Tuple[float, float, float]] = {
   Languages_Used.ENGLISH: (206.835, 1.015, 84.6),

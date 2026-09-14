@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 
 from application.use_cases import analyzeTextService
 from infrastructure.cache import Cache_Service
-from interfaces.schemas import Analysis_Request, Batch_Request, Analysis_Response, Batch_Response, Analysis_Result
+from interfaces.schemas import Analysis_Request, Batch_Request, Analysis_Response, Batch_Response
 from infrastructure.dependencies import get_language_detector, get_sentiment_analyzer
 
 app = FastAPI(title='Text Analyzer')
@@ -128,11 +128,13 @@ def analyzeText(
 
   #Сохраняем результат в кэш.
   cacheService.setCachedResult(analysisRequest.text, result)
+  total_time = time.perf_counter() - startTime
+
   return {
     'status': 'success',
     'result': result.to_dict(),
     'cached': False,
-    'processing_time': time.perf_counter() - startTime
+    'processing_time': total_time
   }
 
 @app.post('/analyze-batch', response_model=Batch_Response)
@@ -167,10 +169,11 @@ def analyzeBatch(request: Request,
 
     results.append(result.to_dict())
     cachedResults.append(False)
+  total_time = time.perf_counter() - startTime
 
   return {
     'status': 'success',
     'results': results,
     'cached': cachedResults,
-    'total_time': time.perf_counter() - startTime
+    'total_time': total_time
   }

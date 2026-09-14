@@ -11,10 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Примеры текстов
   const examples = [
-    'В лесу родилась ёлочка, в лесу она росла. Зимой и летом стройная, зелёная была.',
-    'The quick brown fox jumps over the lazy dog. This is a test sentence.',
-    'Сложный текст для проверки. Много разных слов и предложений. Нужно проверить все метрики.',
-    'Ты не бойся ночи, ведь я рядом. Я ангелом буду твоим навсегда.'
+  'Ты не бойся ночи, ведь я рядом. Я ангелом буду твоим навсегда.',
+  'Donnez-moi une suite au Ritz, je nen veux pas! Des bijoux de chez Chanel, je nen veux pas!',
+  'The quick brown fox jumps over the lazy dog. This is a test sentence.',
+  'Она танцует под Шаде, танцы прямо во тьме. Я знаю что ты не в себе.',
+  'Eins. Hier kommt die Sonne. Zwei. Hier kommt die Sonne. Drei. Sie ist der hellste Stern von allen. Vier. Hier kommt die Sonne'
   ];
 
   // Кнопка "Пример"
@@ -43,45 +44,45 @@ document.addEventListener('DOMContentLoaded', function() {
     resultDiv.style.display = 'none';
     analyzeBtn.disabled = true;
 
-        // Отправляем запрос
-        fetch(API_URL + '/analyze', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({text: text})
-        })
-        .then(response => response.json())
-        .then(data => {
-            loadingDiv.style.display = 'none';
-            analyzeBtn.disabled = false;
+    // Отправляем запрос
+    fetch(API_URL + '/analyze', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({text: text})
+    })
+    .then(response => response.json())
+    .then(data => {
+      loadingDiv.style.display = 'none';
+      analyzeBtn.disabled = false;
 
-            if (data.status === 'success') {
-                showResult(data.result, data.from_cache, data.time);
-            } else {
-                alert('Ошибка: ' + JSON.stringify(data));
-            }
-        })
-        .catch(error => {
-            loadingDiv.style.display = 'none';
-            analyzeBtn.disabled = false;
-            alert('Ошибка: ' + error.message);
-        });
+      if (data.status === 'success') {
+        showResult(data.result, data.cached, data.processing_time);
+      } else {
+        alert('Ошибка: ' + JSON.stringify(data));
+      }
+    })
+    .catch(error => {
+      loadingDiv.style.display = 'none';
+      analyzeBtn.disabled = false;
+      alert('Ошибка: ' + error.message);
     });
+  });
 
-    // Показываем результат
-    function showResult(result, fromCache, time) {
-        resultDiv.style.display = 'block';
+  // Показываем результат
+  function showResult(result, fromCache, time) {
+    resultDiv.style.display = 'block';
 
-        // Информация о кэше
-        const cacheInfo = fromCache ? 'Анализ из кэша' : 'Новый анализ';
+    // Информация о кэше
+    const cacheInfo = fromCache ? 'Анализ из кэша' : 'Новый анализ';
 
-        resultContent.innerHTML = `
+    resultContent.innerHTML = `
             <p><strong>Язык:</strong> ${result.language}</p>
             <p><strong>Тональность:</strong> ${result.polarity}</p>
             <p><strong>Субъективность:</strong> ${(result.subjectivity * 100).toFixed(1)}%</p>
             <p><strong>Индекс Флеша:</strong> ${result.flesch_index.toFixed(2)}</p>
             <p><strong>Уровень сложности:</strong> ${result.interpretation}</p>
             <p><strong>Лексическое разнообразие:</strong> ${(result.lexical_diversity * 100).toFixed(1)}%</p>
-            <p><strong>Время обработки:</strong> ${time} сек</p>
+            <p><strong>Время обработки:</strong> ${time.toFixed(2)} сек</p>
             <p><strong>${cacheInfo}</strong></p>
             <hr>
             <h4>Статистика:</h4>
