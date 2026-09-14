@@ -147,14 +147,14 @@ def rareWordDensity(text: str, freqDict: dict) -> float:
 
     return rareWord / len(words)
 
-def analyzeTextService(text: str,
-                       langDetector: LanguageDetector,
-                       syllableCounter: SyllableCounter,
-                       sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
-    # Итоговая функция полностью анализирующая текст с помощью переданных ей параметров
+     # ← добавить импорт
 
+def analyzeTextService(text: str,
+                        langDetector: LanguageDetector,
+                        sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
     validateText(text)
     lang = langDetector(text)
+    syllableCounter = getSyllableCounter(lang)
     stats = computeStats(text, syllableCounter)
     flesch = fleschIndex(stats, lang)
     kincaid = fleschKincaid(stats, lang)
