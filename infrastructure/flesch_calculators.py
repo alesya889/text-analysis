@@ -18,6 +18,8 @@ def fleschIndex(stats: TextStats, lang: Languages_Used) -> float:
 
     elif lang == Languages_Used.FRANCE:
         return 206.835 - 1.015 * stats.avg_sentence_length - 84.6 * stats.avg_word_syllables
+    else:
+        raise ValueError(f"Unsupported language: {lang}")
 
 
 def fleschKincaid(stats: TextStats, lang: Languages_Used) -> float:
@@ -34,5 +36,6 @@ def fleschKincaid(stats: TextStats, lang: Languages_Used) -> float:
 
     elif lang == Languages_Used.FRANCE:
         return 0.39 * stats.avg_sentence_length + 11.8 * stats.avg_word_syllables - 15.59
-
+    else:
+        raise ValueError(f"Unsupported language: {lang}")
 
