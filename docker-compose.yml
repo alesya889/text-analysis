@@ -1,0 +1,35 @@
+version: '3.8' #Версия докера.
+
+services:
+  redis: #Сервис, все запускают одно приложение.
+    image: redis:7-alpine
+    container_name: text_analysis_redis
+    ports:
+      - "6379:6379" #Одинаковый порт на компьютере и в контейнере (изол среда).
+    volumes: #Хранилище.
+      - redis_data:/data
+    restart: unless-stopped #Перезапуск при необходимости.
+    healthcheck: #Проверка работы.
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: text_analysis_app
+    ports:
+      - "8000:8000" #FastAPI
+    environment:
+      - REDIS_URL = redis://redis:6379/0
+      - DEBUG = False
+      - LOG_LEVEL = INFO
+    depends_on:
+      redis:
+        condition: service_healthy #Приложение не запустится, пока редис не пройдёт хелзчек.
+    volumes:
+      - ./:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  redis_data:
