@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d5e879a-acf9-480f-b1cf-85d0fd17e78c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.coverage" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/data/rareDictDe.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/data/rareDictEn.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/data/rareDictFr.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/data/rareDictRu.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/dictionaries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/use_cases.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/use_cases.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/flesch_calculators.py" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/flesch_calculators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/language_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/language_detector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/sentiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/sentiment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/syllable_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/syllable_counters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/unit/test_language_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_language_detector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/unit/test_sentiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_sentiment.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +58,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Merging feature/testing",
+    "git-widget-placeholder": "feature/testing",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
