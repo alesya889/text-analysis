@@ -1,0 +1,30 @@
+[33m9aebb7e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/interfaces[m[33m, [m[1;31morigin/feature/interfaces[m[33m)[m чиню api
+[33mbb4d206[m Завершение мерджа feature/core-algorithms
+[33mba81cb5[m начала web
+[33mcf12c9f[m[33m ([m[1;31morigin/feature/core-algorithms[m[33m)[m done
+[33m3ef6456[m поправила функции
+[33mbc61533[m flesh_calculators
+[33m7f6b68b[m language_detector
+[33mb90da42[m поправила функции в sentiment
+[33m129e351[m поправила функции в syllable_counters
+[33mc68e70c[m improve function split_words
+[33mb357299[m improve function split_sentences
+[33m461a77a[m sentiment is done
+[33m9afd616[m function about languages
+[33m6080a04[m formule of flesh_kincaid
+[33m7a39647[m interpretation of flesh in use_cases
+[33m0418976[m Flesh, TextStats, Use_cases
+[33ma4cfda3[m Merge feature/architecture into feature/core-algorithms
+[33me06ad0d[m syllable_counters done
+[33m83789a5[m delete file
+[33mf95be08[m add new functions
+[33m3e822ec[m Дополнила папки
+[33m7e30da7[m ограничение кол-ва запросов, тела запроса, обработка ошибок, логирование
+[33m5cdc883[m add new functions
+[33m78c7edf[m сделала config и начала api
+[33mf5fb79c[m поменяла отступы епта
+[33mdefa2a8[m Добавила кэширование Redis
+[33m795cb06[m schemas: валидация ответов и запросов сервера
+[33me570593[m Написала файл интерфейсес для визуализации протоколов основных функций
+[33m374cd3f[m Написала файл тайпс для дальнейшей работы.
+[33m7df41bd[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Initial commit: project structure and configuration

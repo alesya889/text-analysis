@@ -17,4 +17,3 @@ def detectLanguage(text: str) -> Languages_Used:
         return Languages_Used.FRANCE
     else:
         return Languages_Used.ENGLISH
-
