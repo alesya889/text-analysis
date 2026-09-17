@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const examples = [
   'Ты не бойся ночи, ведь я рядом. Я ангелом буду твоим навсегда.',
   'Donnez-moi une suite au Ritz, je nen veux pas! Des bijoux de chez Chanel, je nen veux pas!',
-  'The quick brown fox jumps over the lazy dog. This is a test sentence.',
+  'The quick brown fox jumps over the lazy dog. This is a test sentence. Six seven.',
   'Она танцует под Шаде, танцы прямо во тьме. Я знаю что ты не в себе.',
   'Eins. Hier kommt die Sonne. Zwei. Hier kommt die Sonne. Drei. Sie ist der hellste Stern von allen. Vier. Hier kommt die Sonne'
   ];

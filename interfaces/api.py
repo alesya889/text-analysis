@@ -93,7 +93,7 @@ def generalErrorHandler(request: Request, exc: Exception):
     }
   )
 
-@app.get('/')
+@app.get('/health')
 def healthCheck():
   #Проверяем, что API работает.
   return {'status': 'ok'}
