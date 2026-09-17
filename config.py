@@ -1,16 +1,18 @@
-class Settings():
-  """Настройки приложения"""
+from pydantic_settings import BaseSettings #Проверять типы int, str..import
+class Settings(BaseSettings): #Settings - класс, носит то, что носит BaseSettings
+  """
+  Настройки приложения.
+  """
+  app_name: str = "Text-Analysis"
+  debug: bool = False #Режим отладки, показывающий ошибки.
+  redis_url: str = "redis://localhost:6379/0" #Адрес редис для хранения памяти.
+  cache_ttl_seconds: int = 3600 #Кеш ханится час.
+  max_text_length: int = 10000
+  batch_size_limit: int = 100
+  log_level: str = "INFO" #В логе будет отображаться только основная информация.
+  class Config: #Говорит, откуда брать настройки.
+    env_file = ".env"
+    env_file_encoding = "utf-8" #Кодировка файла.
 
-  def __init__(self):
-    self.redis_url = 'redis://localhost:6379/0'  #URL для подключения к Redis.
-    self.redis_ttl = 3600  #Время жизни кэша (1 час).
-    self.api_host = '0.0.0.0' #Доступно с любого компьютера.
-    self.api_port = 8000
-    self.max_text_length = 10000  #Максимальная длина текста в символах.
-    self.max_batch_size = 100  #Максимальное количество текстов в пакете.
-    self.cors_origins = ['*']  #Разрешить запросы с любых сайтов.
-    self.log_level = 'INFO'
-    self.log_format = 'console'  #Читаемый текст. можно поменять на "json".
+settings = Settings() #Создала конкретный объект по шаблону, т.е. классу.
 
-
-settings = Settings()
