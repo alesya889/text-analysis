@@ -4,7 +4,7 @@ from interfaces.schemas import Analysis_Result
 from config import settings
 
 logger = logging.getLogger(__name__)
-
+logging.basicConfig(level=logging.INFO)
 
 class Cache_Service:
   """Сервис для работы с Redis кэшем."""
@@ -62,7 +62,10 @@ class Cache_Service:
 
     try:
       key = self._getKey(text)
-      value = json.dumps(result, ensure_ascii=False, default=str)
+      value = json.dumps(
+          result.to_dict(),
+          ensure_ascii=False
+      )
       self.redis.setex(key, self.ttl, value)
 
       logger.info(f'Сохранено в кэш: {key[:20]}... (TTL: {self.ttl}с)')

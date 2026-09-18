@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cacheInfo = fromCache ? 'Анализ из кэша' : 'Новый анализ';
 
     resultContent.innerHTML = `
+            <h2>Результат: ${cacheInfo}</h2>
             <p><strong>Язык:</strong> ${result.language}</p>
             <p><strong>Тональность:</strong> ${result.polarity}</p>
             <p><strong>Субъективность:</strong> ${(result.subjectivity * 100).toFixed(1)}%</p>
@@ -83,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <p><strong>Уровень сложности:</strong> ${result.interpretation}</p>
             <p><strong>Лексическое разнообразие:</strong> ${(result.lexical_diversity * 100).toFixed(1)}%</p>
             <p><strong>Время обработки:</strong> ${time.toFixed(2)} сек</p>
-            <p><strong>${cacheInfo}</strong></p>
             <hr>
             <h4>Статистика:</h4>
             <div class="stat-grid">
