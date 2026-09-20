@@ -3,8 +3,8 @@ from textblob import TextBlob
 from deep_translator import GoogleTranslator
 from infrastructure.language_detector import detectLanguage
 
-
 def analyzeSentiment(text: str) -> tuple[Polarity, float]:
+    """Particulate the polarity of the text"""
     lang = detectLanguage(text)
 
     blob = TextBlob(text)

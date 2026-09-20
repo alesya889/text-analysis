@@ -22,7 +22,6 @@ def countSyllablesEn(word: str) -> int:
 
     return cnt
 
-
 def countSyllablesRu(word: str) -> int:
     """Count syllables in Russian word"""
 
@@ -34,7 +33,6 @@ def countSyllablesRu(word: str) -> int:
             cnt += 1
 
     return cnt
-
 
 def countSyllablesGe(word: str) -> int:
     """Count syllables in German word"""
@@ -49,8 +47,8 @@ def countSyllablesFr(word: str) -> int:
     hyphenated = dic.inserted(word)
     return hyphenated.count('-') + 1 if len(word) > 0 else 0
 
-
 def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
+    """Understand which function should be used for syllables"""
     if lang == Languages_Used.ENGLISH:
         return countSyllablesEn
     elif lang == Languages_Used.RUSSIAN:

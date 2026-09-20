@@ -52,6 +52,7 @@ def splitSentences(text: str) -> list[str]:
     return trueList
 
 def splitWords(text: str) -> list[str]:
+    # Делит строку на отдельные слова
     return re.findall(r"\b[\w']+\b", text)
 
 def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
@@ -150,6 +151,7 @@ def rareWordDensity(text: str, freqDict: dict) -> float:
 def analyzeTextService(text: str,
                         langDetector: LanguageDetector,
                         sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
+    # Собирает итоговую информацию о тексте
     validateText(text)
     lang = langDetector(text)
     syllableCounter = getSyllableCounter(lang)
