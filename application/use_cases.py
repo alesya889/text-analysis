@@ -147,8 +147,6 @@ def rareWordDensity(text: str, freqDict: dict) -> float:
 
     return rareWord / len(words)
 
-     # ← добавить импорт
-
 def analyzeTextService(text: str,
                         langDetector: LanguageDetector,
                         sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
