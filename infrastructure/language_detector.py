@@ -1,5 +1,6 @@
-from domain.types import Languages_Used, Difficulty_Level
 import langdetect
+from domain.types import Languages_Used, Difficulty_Level
+
 
 def detectLanguage(text: str) -> Languages_Used:
     """Detects the language of the text"""
