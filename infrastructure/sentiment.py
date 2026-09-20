@@ -1,6 +1,6 @@
-from domain.types import Polarity, Languages_Used
 from textblob import TextBlob
 from deep_translator import GoogleTranslator
+from domain.types import Polarity, Languages_Used
 from infrastructure.language_detector import detectLanguage
 
 def analyzeSentiment(text: str) -> tuple[Polarity, float]:

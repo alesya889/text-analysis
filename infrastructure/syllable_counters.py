@@ -1,7 +1,8 @@
-from domain.types import Languages_Used
-from domain.interfaces import SyllableCounter
 import eng_to_ipa as ipa
 import pyphen
+from domain.types import Languages_Used
+from domain.interfaces import SyllableCounter
+
 
 def countSyllablesEn(word: str) -> int:
     """Count syllables in English word"""
