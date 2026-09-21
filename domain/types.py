@@ -1,8 +1,9 @@
 # Типы данных проекта, которые другие роли будут использовать в дальнейшей работе.
 
-from dataclasses import dataclass #Классы напоминают словари, это для быстрого обращения.
-from enum import Enum #Для фиксированных наборов значений, по типу языков.
+from dataclasses import dataclass  # Классы напоминают словари, это для быстрого обращения.
+from enum import Enum  # Для фиксированных наборов значений, по типу языков.
 from typing import Dict, Tuple
+
 
 class Languages_Used(Enum):
   """
@@ -13,16 +14,19 @@ class Languages_Used(Enum):
   GERMAN = 'German'
   FRANCE = 'French'
 
+
 class Polarity(Enum):
   Positive = 'positive'
   Negative = 'negative'
   Neutral = 'neutral'
+
 
 class Difficulty_Level(Enum):
   Very_Easy = 'very easy'
   Easy = 'easy'
   Hard = 'hard'
   Very_Hard = 'very hard'
+
 
 FleshCoefficients: Dict[Languages_Used, Tuple[float, float, float]] = {
   Languages_Used.ENGLISH: (206.835, 1.015, 84.6),
@@ -31,13 +35,15 @@ FleshCoefficients: Dict[Languages_Used, Tuple[float, float, float]] = {
   Languages_Used.FRANCE: (206.835, 1.015, 84.6),
 }
 
+
 @dataclass(frozen=True)
 class TextStats:
-  sentence_count: int #Количество предложений.
-  word_count: int #Количество слов.
-  syllable_count: int #Количество слогов.
-  avg_sentence_length: float #Средняя длина предложений.
-  avg_word_syllables: float #Средняя длина слова.
+  sentence_count: int  # Количество предложений.
+  word_count: int  # Количество слов.
+  syllable_count: int  # Количество слогов.
+  avg_sentence_length: float  # Средняя длина предложений.
+  avg_word_syllables: float  # Средняя длина слова.
+
 
 @dataclass(frozen=True)
 class AnalysisResult:
@@ -45,13 +51,13 @@ class AnalysisResult:
   language: Languages_Used
   flesch_index: float
   flesch_kincaid: float
-  interpretation: str #Восприятие.
-  polarity: Polarity #Тональность.
-  subjectivity: float #Субъективность
-  lexical_diversity: float #Лексическое разнообразие.
-  rare_word_density: float #Плотность редких слов.
-  stats: TextStats #Статистика текста.
-  sentiment: str = "neutral" #Настроение.
+  interpretation: str  # Восприятие.
+  polarity: Polarity  # Тональность.
+  subjectivity: float  # Субъективность
+  lexical_diversity: float  # Лексическое разнообразие.
+  rare_word_density: float  # Плотность редких слов.
+  stats: TextStats  # Статистика текста.
+  sentiment: str = "neutral"  # Настроение.
 
   def to_dict(self):
     # Превратит объекты выше в словари, чтобы далее для роли 2 и 3 не вознакало проблем с API и прочее.
@@ -66,11 +72,11 @@ class AnalysisResult:
       "rare_word_density": round(self.rare_word_density, 2),
       "sentiment": self.sentiment,
       "stats": {
-          "sentence_count": self.stats.sentence_count,
-          "word_count": self.stats.word_count,
-          "syllable_count": self.stats.syllable_count,
-          "avg_sentence_length": round(self.stats.avg_sentence_length, 2),
-          "avg_word_syllables": round(self.stats.avg_word_syllables, 2),
+        "sentence_count": self.stats.sentence_count,
+        "word_count": self.stats.word_count,
+        "syllable_count": self.stats.syllable_count,
+        "avg_sentence_length": round(self.stats.avg_sentence_length, 2),
+        "avg_word_syllables": round(self.stats.avg_word_syllables, 2),
       }
     }
 

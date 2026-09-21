@@ -14,7 +14,3 @@ with open(DATA_DIR / 'rareDictDe.json', encoding='utf-8') as f:
 
 with open(DATA_DIR / 'rareDictFr.json', encoding='utf-8') as f:
     rareDictFr = json.load(f)
-
-
-
-

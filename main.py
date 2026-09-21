@@ -33,9 +33,9 @@ REQUEST_LATENCY = Histogram( # Счетчик времени ответа зап
 
 @asynccontextmanager
 async def lifespan(app: FastAPI): # Функция может работать параллельно с другими задачами.
-  """
-  Выполняется при запуске и остановке приложения.
-  """
+
+  # Выполняется при запуске и остановке приложения.
+
   logger.info("start application", app_name=settings.app_name)
   yield
   logger.info("end application")

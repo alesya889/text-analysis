@@ -121,7 +121,6 @@ class TestAnalyzeBatchEndpoint:
 class TestCaching:
   # Тесты кэширования.
 
-
   def test_different_texts_not_cached(self, client):
     # Разные тексты не используют кэш друг друга.
     response1 = client.post('/analyze', json={

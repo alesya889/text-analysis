@@ -2,15 +2,17 @@ import json, click, httpx
 
 API_URL = 'http://127.0.0.1:8000'
 
+
 @click.group()
 def cli():
   # Создаём главную CLI-команду.
   pass
 
+
 @cli.command()
-@click.option('--text', type = str, help = 'Текст для анализа.')
-@click.option('--file', 'filePath', type = click.Path(exists = True), help = 'Файл с текстом.')
-@click.option('--batch-file', 'batchFilePath', type = click.Path(exists = True), help = 'Файл с несколькими текстами.')
+@click.option('--text', type=str, help='Текст для анализа.')
+@click.option('--file', 'filePath', type=click.Path(exists=True), help='Файл с текстом.')
+@click.option('--batch-file', 'batchFilePath', type=click.Path(exists=True), help='Файл с несколькими текстами.')
 def analyze(text, filePath, batchFilePath):
   # Выбираем способ получения текста.
 
@@ -32,38 +34,42 @@ def analyze(text, filePath, batchFilePath):
 
   analyzeBatchFile(batchFilePath)
 
+
 def sendTextToApi(text):
-  #Отправляем один текст в API.
+  # Отправляем один текст в API.
 
   response = httpx.post(
-f'{API_URL}/analyze',
+    f'{API_URL}/analyze',
     json={'text': text},
     trust_env=False
   )
 
   showResponse(response)
 
+
 def analyzeFile(filePath):
   # Читаем текст из файла и отправляем его в API.
 
-  with open(filePath, 'r', encoding = 'utf-8') as file:
+  with open(filePath, 'r', encoding='utf-8') as file:
     text = file.read()
 
   sendTextToApi(text)
 
+
 def analyzeBatchFile(filePath):
   # Читаем несколько текстов из файла и отправляем их в API.
 
-  with open(filePath, 'r', encoding = 'utf-8') as file:
+  with open(filePath, 'r', encoding='utf-8') as file:
     texts = [line.strip() for line in file if line.strip()]
 
   response = httpx.post(
-f'{API_URL}/analyze-batch',
+    f'{API_URL}/analyze-batch',
     json={'texts': texts},
     trust_env=False
   )
 
   showResponse(response)
+
 
 def showResponse(response):
   # Показываем ответ API пользователю.
@@ -77,10 +83,11 @@ def showResponse(response):
   click.echo(
     json.dumps(
       result,
-      ensure_ascii = False,
-      indent = 2
+      ensure_ascii=False,
+      indent=2
     )
   )
+
 
 if __name__ == '__main__':
   # Запускаем CLI.

@@ -170,30 +170,30 @@ def analyzeTextService(text: str,
   diversity = lexicalDiversity(text)
 
   if lang == Languages_Used.ENGLISH:
-      freqDict = rareDictEn
+    freqDict = rareDictEn
   elif lang == Languages_Used.RUSSIAN:
-      freqDict = rareDictRu
+    freqDict = rareDictRu
   elif lang == Languages_Used.GERMAN:
-      freqDict = rareDictDe
+    freqDict = rareDictDe
   elif lang == Languages_Used.FRANCE:
-      freqDict = rareDictFr
+    freqDict = rareDictFr
   else:
-      freqDict = rareDictEn
+    freqDict = rareDictEn
   rareDensity = rareWordDensity(text, freqDict)
 
   return AnalysisResult(
-      language=lang,
-      flesch_index=flesch,
-      flesch_kincaid=kincaid,
-      interpretation=interpretationFl,
-      polarity=polarity,
-      subjectivity=subj,
-      lexical_diversity=diversity,
-      rare_word_density=rareDensity,
-      stats=stats
+    language=lang,
+    flesch_index=flesch,
+    flesch_kincaid=kincaid,
+    interpretation=interpretationFl,
+    polarity=polarity,
+    subjectivity=subj,
+    lexical_diversity=diversity,
+    rare_word_density=rareDensity,
+    stats=stats
   )
 
   def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
-      # Итоговая функция для большего массива текстов
+    # Итоговая функция для большего массива текстов
 
-      return [analyzeTextService(t, **deps) for t in texts]
+    return [analyzeTextService(t, **deps) for t in texts]

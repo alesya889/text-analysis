@@ -6,14 +6,16 @@ from config import settings
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+
 class Cache_Service:
   """Сервис для работы с Redis кэшем."""
+
   def __init__(
-    self,
-    redisHost: str = 'localhost',
-    redisPort: int = 6379,
-    redisDb: int = 0,
-    ttl: int = settings.redis_ttl
+          self,
+          redisHost: str = 'localhost',
+          redisPort: int = 6379,
+          redisDb: int = 0,
+          ttl: int = settings.redis_ttl
   ):
     """Инициализирует подключение к Redis."""
     self.ttl = ttl
@@ -46,9 +48,9 @@ class Cache_Service:
       cached = self.redis.get(key)
 
       if cached:
-          data = json.loads(cached)
-          logger.info(f'Найдено в кэше: {key[:20]}...')
-          return Analysis_Result(**data)
+        data = json.loads(cached)
+        logger.info(f'Найдено в кэше: {key[:20]}...')
+        return Analysis_Result(**data)
       return None
 
     except Exception as e:
@@ -63,8 +65,8 @@ class Cache_Service:
     try:
       key = self._getKey(text)
       value = json.dumps(
-          result.to_dict(),
-          ensure_ascii=False
+        result.to_dict(),
+        ensure_ascii=False
       )
       self.redis.setex(key, self.ttl, value)
 
@@ -97,13 +99,13 @@ class Cache_Service:
   def getStats(self) -> dict:
     """Возвращает статистику кэша."""
     if not self.redis:
-        return {'status': 'not_connected'}
+      return {'status': 'not_connected'}
     try:
-        keys = self.redis.keys('analysis:*')
-        return {
-            'status': 'connected',
-            'total_keys': len(keys),
-            'ttl': self.ttl
-        }
+      keys = self.redis.keys('analysis:*')
+      return {
+        'status': 'connected',
+        'total_keys': len(keys),
+        'ttl': self.ttl
+      }
     except Exception as e:
-        return {'status': 'error', 'message': str(e)}
+      return {'status': 'error', 'message': str(e)}
