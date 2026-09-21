@@ -5,10 +5,10 @@ from enum import Enum #Для фиксированных наборов знач
 from typing import Dict, Tuple
 
 class Languages_Used(Enum):
-  ENGLISH = 'en'
-  RUSSIAN = 'ru'
-  GERMAN = 'ge'
-  FRANCE = 'fr'
+  ENGLISH = 'English'
+  RUSSIAN = 'Russian'
+  GERMAN = 'German'
+  FRANCE = 'French'
 
 class Polarity(Enum):
   Positive = 'positive'
