@@ -74,19 +74,19 @@ def test_analyze_text():
 def test_analyze_empty_text():
     response = client.post("/analyze", json={"text": ""})
 
-    assert response.status_code == 422
+    assert response.status_code == 400
 
 
 def test_analyze_whitespace_text():
     response = client.post("/analyze", json={"text": "     "})
 
-    assert response.status_code == 422
+    assert response.status_code == 400
 
 
 def test_analyze_missing_text():
     response = client.post("/analyze", json={})
 
-    assert response.status_code == 422
+    assert response.status_code == 400
 
 
 # Проверка кэша
@@ -156,22 +156,22 @@ def test_analyze_batch():
 def test_analyze_batch_empty_list():
     response = client.post("/analyze-batch", json={"texts": []})
 
-    assert response.status_code == 422
+    assert response.status_code == 400
 
 
 def test_analyze_batch_with_empty_text():
     response = client.post("/analyze-batch", json={"texts": ["Hello world.", ""]})
 
-    assert response.status_code == 422
+    assert response.status_code == 400
 
 
 def test_analyze_batch_with_whitespace_text():
     response = client.post("/analyze-batch", json={"texts": ["Hello world.", "     "]})
 
-    assert response.status_code == 422
+    assert response.status_code == 400
 
 
 def test_analyze_batch_missing_texts():
     response = client.post("/analyze-batch", json={})
 
-    assert response.status_code == 422
+    assert response.status_code == 400

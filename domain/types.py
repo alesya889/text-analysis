@@ -22,10 +22,10 @@ class Polarity(Enum):
 
 
 class Difficulty_Level(Enum):
-  Very_Easy = 'very easy'
+  Very_Easy = 'very_easy'
   Easy = 'easy'
   Hard = 'hard'
-  Very_Hard = 'very hard'
+  Very_Hard = 'very_hard'
 
 
 FleshCoefficients: Dict[Languages_Used, Tuple[float, float, float]] = {
