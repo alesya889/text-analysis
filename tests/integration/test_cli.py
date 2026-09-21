@@ -7,6 +7,10 @@ from click.testing import CliRunner
 from unittest.mock import patch, MagicMock
 from interfaces.cli import cli
 
+@pytest.fixture
+def runner():
+  # Тестовый клиент Click.
+  return CliRunner()
 
 class TestAnalyzeCommand:
   # Тесты команды analyze.

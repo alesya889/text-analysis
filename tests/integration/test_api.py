@@ -122,19 +122,19 @@ class TestCaching:
   # Тесты кэширования.
 
 
-def test_different_texts_not_cached(self, client):
-  # Разные тексты не используют кэш друг друга.
-  response1 = client.post('/analyze', json={
-    'text': 'First unique text for cache test',
-    'language': 'en'
-  })
-  response2 = client.post('/analyze', json={
-    'text': 'Second unique text for cache test',
-    'language': 'en'
-  })
+  def test_different_texts_not_cached(self, client):
+    # Разные тексты не используют кэш друг друга.
+    response1 = client.post('/analyze', json={
+      'text': 'First unique text for cache test',
+      'language': 'en'
+    })
+    response2 = client.post('/analyze', json={
+      'text': 'Second unique text for cache test',
+      'language': 'en'
+    })
 
-  assert response1.json()['cached'] is False
-  assert response2.json()['cached'] is False
+    assert response1.json()['cached'] is False
+    assert response2.json()['cached'] is False
 
 
 class TestErrorHandling:
