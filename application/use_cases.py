@@ -196,6 +196,7 @@ def analyzeTextService(text: str,
     stats=stats
   )
 
+
 def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
   # Итоговая функция для большего массива текстов
 
