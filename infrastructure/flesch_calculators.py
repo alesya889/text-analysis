@@ -5,7 +5,7 @@ from domain.interfaces import SyllableCounter
 
 
 def fleschIndex(stats: TextStats, lang: Languages_Used) -> float:
-    """Calculate Flesch's Index."""
+    # Считает индекс Флеша в зависимости от языка
 
     if lang == Languages_Used.ENGLISH:
         return 206.835 - 1.015 * stats.avg_sentence_length - 84.6 * stats.avg_word_syllables
@@ -23,7 +23,7 @@ def fleschIndex(stats: TextStats, lang: Languages_Used) -> float:
 
 
 def fleschKincaid(stats: TextStats, lang: Languages_Used) -> float:
-    """Calculate Flesch's Kincaid Index"""
+    # Считает индекс Флеш-Кинкейда в зависимости от языка
 
     if lang == Languages_Used.ENGLISH:
         return 0.39 * stats.avg_sentence_length + 11.8 * stats.avg_word_syllables - 15.59

@@ -4,7 +4,7 @@ from domain.types import Polarity, Languages_Used
 from infrastructure.language_detector import detectLanguage
 
 def analyzeSentiment(text: str) -> tuple[Polarity, float]:
-    """Particulate the polarity of the text"""
+    # Определяет тональность
     lang = detectLanguage(text)
 
     blob = TextBlob(text)

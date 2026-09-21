@@ -3,7 +3,7 @@ from domain.types import Languages_Used, Difficulty_Level
 
 
 def detectLanguage(text: str) -> Languages_Used:
-    """Detects the language of the text"""
+    # Определяет, какой язык с помощью библиотеки langdetect
     detected = langdetect.detect(text)
 
     if detected == 'ru':

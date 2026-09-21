@@ -5,7 +5,7 @@ from domain.interfaces import SyllableCounter
 
 
 def countSyllablesEn(word: str) -> int:
-    """Count syllables in English word"""
+    # Cчитает слоги для английского
 
     cnt = 0
     transcription = ipa.convert(word.lower())
@@ -24,7 +24,7 @@ def countSyllablesEn(word: str) -> int:
     return cnt
 
 def countSyllablesRu(word: str) -> int:
-    """Count syllables in Russian word"""
+    # Cчитает слоги для русского
 
     vowels = ['а', 'о', 'е', "ё" , "у", 'ы', 'и', 'я', "ю" , "э"]
     cnt = 0
@@ -36,20 +36,20 @@ def countSyllablesRu(word: str) -> int:
     return cnt
 
 def countSyllablesGe(word: str) -> int:
-    """Count syllables in German word"""
+    # Cчитает слоги для немецкого
 
     dic = pyphen.Pyphen(lang='de_DE')
     hyphenated = dic.inserted(word)
     return hyphenated.count('-') + 1 if len(word) > 0 else 0
 
 def countSyllablesFr(word: str) -> int:
-    """Count syllables in French word"""
+    # Считает слоги для французского
     dic = pyphen.Pyphen(lang='fr_FR')
     hyphenated = dic.inserted(word)
     return hyphenated.count('-') + 1 if len(word) > 0 else 0
 
 def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:
-    """Understand which function should be used for syllables"""
+    # Определяет, какую функцию надо использовать для подсчета слогов в зависимости от языка
     if lang == Languages_Used.ENGLISH:
         return countSyllablesEn
     elif lang == Languages_Used.RUSSIAN:
