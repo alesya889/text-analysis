@@ -136,7 +136,7 @@ def analyzeText(
   if cachedResult:
     return {
       'status': 'success',
-      'result': cachedResult.to_dict(),
+      'result': cachedResult,
       'cached': True,
       'processing_time': 0.0
     }
