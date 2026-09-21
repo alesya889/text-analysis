@@ -1500,17 +1500,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/feature/testing
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+<<<<<<< HEAD
     &quot;git-widget-placeholder&quot;: &quot;Merging main&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Пользователь/PycharmProjects/text-analysis&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.smartKeys&quot;
+=======
+    &quot;git-widget-placeholder&quot;: &quot;feature/interfaces&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python tests.Python tests in test_flesch_calculators.py.executor": "Run",
+    "Python tests.Python tests in test_language_detector.py.executor": "Run",
+    "Python tests.Python tests in test_sentiment.py.executor": "Run",
+    "Python tests.Python tests in test_syllable_counters.py.executor": "Run",
+    "Python tests.Python tests in test_use_cases.py.executor": "Run",
+    "Python.flesch_calculators.executor": "Run",
+    "Python.generating_dicts.executor": "Run",
+    "Python.syllable_counters.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/testing",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
+>>>>>>> origin/feature/core-algorithms
+>>>>>>> origin/feature/testing
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

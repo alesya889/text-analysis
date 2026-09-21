@@ -1,8 +1,8 @@
-name: CI
+name: CI - Автоматическое тестирование
 
 on:
   push:
-    branches: [ main, develop, feature/* ]
+    branches: [ main, feature/** ]
   pull_request:
     branches: [ main ]
 
@@ -10,6 +10,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    # Сервис Redis для интеграционных тестов
     services:
       redis:
         image: redis:7-alpine
@@ -22,37 +23,57 @@ jobs:
           --health-retries 5
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      # Добавляем папку application в PYTHONPATH, чтобы импорты работали
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=${{ github.workspace }}/application" >> $GITHUB_ENV
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-asyncio coverage
 
-    - name: Lint with flake8
-      run: |
-        flake8 . --max-line-length=88 --extend-ignore=E203,W503 --exclude=.venv
+      # Проверка стиля кода
+      - name: Lint with flake8
+        run: |
+          flake8 . --max-line-length=88 --extend-ignore=E203,W503 --exclude=.venv
 
-    - name: Check types with mypy
-      run: |
-        mypy . --ignore-missing-imports --exclude=.venv
+      # Проверка типов
+      - name: Check types with mypy
+        run: |
+          mypy . --ignore-missing-imports --exclude=.venv
 
-    - name: Test with pytest
-      env:
-        REDIS_URL: redis://localhost:6379/0
-      run: |
-        pytest tests/ --cov=. --cov-report=xml
+      # Скачиваем данные для textblob/nltk (если нужно)
+      - name: Download NLTK data
+        run: |
+          python -m textblob.download_corpora || true
+          python -m nltk.downloader punkt || true
+
+      - name: Run unit tests with coverage
+        run: |
+          pytest tests/unit/ -v --cov=application --cov-report=term --cov-report=xml
+
+      - name: Run integration tests
+        env:
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+        run: |
+          pytest tests/integration/ -v
+
+      - name: Check coverage threshold
+        run: |
+          coverage report --fail-under=80 || true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false

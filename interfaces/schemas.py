@@ -71,6 +71,7 @@ class Analysis_Result(BaseModel):
     subjectivity: float
     lexical_diversity: float
     rare_word_density: float
+    sentiment: str
     stats: StatsSchema
 
 class Analysis_Response(BaseModel):
