@@ -1,5 +1,5 @@
 class Settings():
-  """Настройки приложения"""
+  #Настройки приложения.
 
   def __init__(self):
     self.redis_url = 'redis://localhost:6379/0'

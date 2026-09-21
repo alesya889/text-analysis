@@ -1,4 +1,3 @@
-from fastapi import Depends
 from infrastructure.language_detector import detectLanguage
 from infrastructure.sentiment import analyzeSentiment
 

@@ -19,7 +19,7 @@ client = TestClient(app)
 
 #/health
 
-def test_health():
+def testHealth():
   response = client.get('/health')
 
   assert response.status_code == 200
@@ -30,7 +30,7 @@ def test_health():
 
 #/analyze
 
-def test_analyze_text():
+def testAnalyzeText():
   response = client.post(
     '/analyze',
     json={
@@ -70,7 +70,7 @@ def test_analyze_text():
   assert 'avg_word_syllables' in stats
 
 
-def test_analyze_empty_text():
+def testAnalyzeEmptyText():
   response = client.post(
     '/analyze',
     json={
@@ -81,7 +81,7 @@ def test_analyze_empty_text():
   assert response.status_code == 422
 
 
-def test_analyze_whitespace_text():
+def testAnalyzeWhitespaceText():
   response = client.post(
     '/analyze',
     json={
@@ -92,7 +92,7 @@ def test_analyze_whitespace_text():
   assert response.status_code == 422
 
 
-def test_analyze_missing_text():
+def testAnalyzeMissingText():
   response = client.post(
     '/analyze',
     json={}
@@ -102,7 +102,7 @@ def test_analyze_missing_text():
 
 #Проверка кэша
 
-def test_analyze_cached_text():
+def testAnalyzeCachedText():
   text = 'This is a cached text.'
 
   #Первый запрос
@@ -136,7 +136,7 @@ def test_analyze_cached_text():
 #/analyze-batch
 
 
-def test_analyze_batch():
+def testAnalyzeBatch():
   response = client.post(
     '/analyze-batch',
     json={
@@ -177,7 +177,7 @@ def test_analyze_batch():
   assert 'stats' in result
 
 
-def test_analyze_batch_empty_list():
+def testAnalyzeBatchEmptyList():
   response = client.post(
     '/analyze-batch',
     json={
@@ -188,7 +188,7 @@ def test_analyze_batch_empty_list():
   assert response.status_code == 422
 
 
-def test_analyze_batch_with_empty_text():
+def testAnalyzeBatchWithEmptyText():
   response = client.post(
     '/analyze-batch',
     json={
@@ -202,7 +202,7 @@ def test_analyze_batch_with_empty_text():
   assert response.status_code == 422
 
 
-def test_analyze_batch_with_whitespace_text():
+def testAnalyzeBatchWithWhitespaceText():
   response = client.post(
     '/analyze-batch',
     json={
@@ -216,7 +216,7 @@ def test_analyze_batch_with_whitespace_text():
   assert response.status_code == 422
 
 
-def test_analyze_batch_missing_texts():
+def testAnalyzeBatchMissingTexts():
   response = client.post(
     '/analyze-batch',
     json={}
