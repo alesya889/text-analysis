@@ -37,6 +37,7 @@ def validateText(text: str) -> None:
                 raise ValueError(f'Not allowed symbol {ch!r}')
         raise ValueError("Text doesn't have allowed symbols")
 
+
 def splitSentences(text: str) -> list[str]:
     # Разделяет строку на список строк-предложений
 
@@ -51,13 +52,14 @@ def splitSentences(text: str) -> list[str]:
 
     return trueList
 
+
 def splitWords(text: str) -> list[str]:
     # Делит строку на отдельные слова
     return re.findall(r"\b[\w']+\b", text)
 
+
 def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
     # Собирает все технические параметры о тексте, используя отдельные функции
-
 
     sentences = splitSentences(text)
     cntSentences = len(sentences)
@@ -65,7 +67,7 @@ def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
     cntWords = len(words)
 
     totalSyllables = sum(syllableCounter(w) for w in words)
-    avgSentenceLength =  cntWords / cntSentences if cntSentences > 0 else 0
+    avgSentenceLength = cntWords / cntSentences if cntSentences > 0 else 0
     avgWordSyllables = totalSyllables / cntWords if cntWords > 0 else 0
 
     return TextStats(
@@ -75,6 +77,7 @@ def computeStats(text: str, syllableCounter: SyllableCounter) -> TextStats:
         avg_sentence_length=avgSentenceLength,
         avg_word_syllables=avgWordSyllables
     )
+
 
 def interpretFlesch(score: float, lang: Languages_Used) -> str:
     # Интерпретирует результаты индекса Флеша в зависимости от языка, адаптирует невалидные баллы
@@ -123,6 +126,7 @@ def interpretFlesch(score: float, lang: Languages_Used) -> str:
     else:
         return 'Unknown'
 
+
 def lexicalDiversity(text: str) -> float:
     # Вычисляет долю уникальных слов в тексте
 
@@ -132,6 +136,7 @@ def lexicalDiversity(text: str) -> float:
     if len(words) == 0:
         return 0
     return len(uniqueWords) / len(words)
+
 
 def rareWordDensity(text: str, freqDict: dict) -> float:
     # Вычисляет долю редких слов в тексте, ссылаясь на собранные словари
@@ -148,9 +153,10 @@ def rareWordDensity(text: str, freqDict: dict) -> float:
 
     return rareWord / len(words)
 
+
 def analyzeTextService(text: str,
-                        langDetector: LanguageDetector,
-                        sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
+                       langDetector: LanguageDetector,
+                       sentimentAnalyzer: SentimentAnalyzer) -> AnalysisResult:
     # Собирает итоговую информацию о тексте
     validateText(text)
     lang = langDetector(text)
@@ -186,11 +192,7 @@ def analyzeTextService(text: str,
         stats=stats
     )
 
+
 def analyzeBatchService(texts: list[str], **deps) -> list[AnalysisResult]:
     # Итоговая функция для большего массива текстов
     return [analyzeTextService(t, **deps) for t in texts]
-
-
-
-
-
