@@ -1,0 +1,33 @@
+from textblob import TextBlob
+from deep_translator import GoogleTranslator
+from domain.types import Polarity, Languages_Used
+from infrastructure.language_detector import detectLanguage
+
+def analyzeSentiment(text: str) -> tuple[Polarity, float]:
+    # Определяет тональность
+    lang = detectLanguage(text)
+
+    blob = TextBlob(text)
+    polarity = blob.sentiment.polarity
+    subjectivity = blob.sentiment.subjectivity
+
+    if lang != Languages_Used.ENGLISH:
+        try:
+            translated = GoogleTranslator(source='auto', target='en').translate(text)
+            if translated and str(translated).strip():
+                blob = TextBlob(str(translated))
+                polarity = blob.sentiment.polarity
+                subjectivity = blob.sentiment.subjectivity
+        except:
+            pass
+
+    if polarity > 0.1:
+        p = Polarity.Positive
+
+    elif polarity < -0.1:
+        p = Polarity.Negative
+
+    else:
+        p = Polarity.Neutral
+
+    return p, subjectivity
