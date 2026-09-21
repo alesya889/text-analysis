@@ -37,4 +37,3 @@ def fleschKincaid(stats: TextStats, lang: Languages_Used) -> float:
         return 0.39 * stats.avg_sentence_length + 11.8 * stats.avg_word_syllables - 15.59
     else:
         raise ValueError(f"Unsupported language: {lang}")
-

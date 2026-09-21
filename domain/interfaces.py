@@ -1,5 +1,6 @@
 from typing import Protocol
 from domain.types import Languages_Used, Polarity
+from domain.types import TextStats
 
 
 class SyllableCounter(Protocol):
