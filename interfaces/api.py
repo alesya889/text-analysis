@@ -168,7 +168,7 @@ def analyzeBatch(request: Request,
     cachedResult = cacheService.getCachedResult(text)
 
     if cachedResult:
-      results.append(cachedResult.to_dict())
+      results.append(cachedResult)
       cachedResults.append(True)
       continue
 
