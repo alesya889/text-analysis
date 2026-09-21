@@ -1,38 +1,38 @@
-import structlog #Библиотека для записи о том, что происходит в программе.
-from contextlib import asynccontextmanager #Для FastAPI, что делать на старте, а что после.
-from fastapi import FastAPI #Для создания приложения.
-from fastapi.middleware.cors import CORSMiddleware #Разрешает запросы с других сайтов.
+import structlog # Библиотека для записи о том, что происходит в программе.
+from contextlib import asynccontextmanager # Для FastAPI, что делать на старте, а что после.
+from fastapi import FastAPI # Для создания приложения.
+from fastapi.middleware.cors import CORSMiddleware # Разрешает запросы с других сайтов.
 from config import settings
-import time #Метрика времени.
+import time # Метрика времени.
 from prometheus_client import (
   Counter,
   Histogram,
   make_asgi_app,
 )
 
-structlog.configure( #Настройка, как будут выглядеть соо в логах.
+structlog.configure( # Настройка, как будут выглядеть соо в логах.
   processors=[
-    structlog.processors.TimeStamper(fmt="iso"), #Время.
-    structlog.processors.add_log_level, #Уровень лога: инфо, еррор, ворнинг.
-    structlog.processors.JSONRenderer() #Выводит лог в формате JSON.
+    structlog.processors.TimeStamper(fmt="iso"), # Время.
+    structlog.processors.add_log_level, # Уровень лога: инфо, еррор, ворнинг.
+    structlog.processors.JSONRenderer() # Выводит лог в формате JSON.
   ]
 )
 logger = structlog.get_logger()
 
-REQUEST_COUNT = Counter( #Счетчик количества запросов.
-  "http_requests_total", #Имя метрики.
-  "Total HTTP requests", #Что метрика измеряет.
-  ["method", "endpoint"] #Для ранжирования всех запросов по методу (get, post..), и эндпоинта.
+REQUEST_COUNT = Counter( # Счетчик количества запросов.
+  "http_requests_total", # Имя метрики.
+  "Total HTTP requests", # Что метрика измеряет.
+  ["method", "endpoint"] # Для ранжирования всех запросов по методу (get, post..), и эндпоинта.
 )
 
-REQUEST_LATENCY = Histogram( #Счетчик времени ответа запросов.
+REQUEST_LATENCY = Histogram( # Счетчик времени ответа запросов.
   "http_request_duration_seconds",
   "HTTP request latency",
   ["method", "endpoint"]
 )
 
 @asynccontextmanager
-async def lifespan(app: FastAPI): #Функция может работать параллельно с другими задачами.
+async def lifespan(app: FastAPI): # Функция может работать параллельно с другими задачами.
   """
   Выполняется при запуске и остановке приложения.
   """
@@ -40,33 +40,33 @@ async def lifespan(app: FastAPI): #Функция может работать п
   yield
   logger.info("end application")
 
-app = FastAPI( #Объект, который обрабатывает HTTP-запросы
-  title = settings.app_name, #Название в документации.**
-  version = "1.0.0", #Версия API
+app = FastAPI( # Объект, который обрабатывает HTTP-запросы
+  title = settings.app_name, # Название в документации.**
+  version = "1.0.0", # Версия API
   lifespan = lifespan,
   debug = settings.debug,
 )
 
-app.add_middleware( #Обработка запроса до попадания в основной код, обработка ответа до попадания к пользователю.
-  CORSMiddleware, #Избежание блокировки API и веб сайта, так как у них разные localhost.
-  allow_origins = ["*"], #Разрешать всем.
+app.add_middleware( # Обработка запроса до попадания в основной код, обработка ответа до попадания к пользователю.
+  CORSMiddleware, # Избежание блокировки API и веб сайта, так как у них разные localhost.
+  allow_origins = ["*"], # Разрешать всем.
   allow_credentials = True,
-  allow_methods = ["*"], #Все метододы
-  allow_headers = ["*"], #Все заголовки: формат, язык ответа и пр.
+  allow_methods = ["*"], # Все метододы
+  allow_headers = ["*"], # Все заголовки: формат, язык ответа и пр.
 )
 
 @app.middleware("http")
 async def metrics_middleware(request, call_next):
   start_time = time.time()
-  response = await call_next(request) #Пропускает запрос дальше.
-  duration = time.time() - start_time #Счетчик разницы.
+  response = await call_next(request) # Пропускает запрос дальше.
+  duration = time.time() - start_time # Счетчик разницы.
 
-  REQUEST_COUNT.labels( #Увелчиивает счетчик на 1.
+  REQUEST_COUNT.labels( # Увелчиивает счетчик на 1.
     method=request.method,
     endpoint=request.url.path
   ).inc()
 
-  REQUEST_LATENCY.labels(#Запись времени.
+  REQUEST_LATENCY.labels(# Запись времени.
     method=request.method,
     endpoint=request.url.path
   ).observe(duration)
@@ -74,13 +74,11 @@ async def metrics_middleware(request, call_next):
   return response
 
 metrics_app = make_asgi_app()
-app.mount("/metrics", metrics_app) #Создает эндпоинт метрики.
+app.mount("/metrics", metrics_app) # Создает эндпоинт метрики.
 
-@app.get("/") #Это декоратор (не меняя код, добавляет поведение). При GET-запросе на / вызвать функцию.
+@app.get("/") # Это декоратор (не меняя код, добавляет поведение). При GET-запросе на / вызвать функцию.
 async def root():
-  """
-  Корневой адрес с информацией о сервисе.
-  """
+  # Корневой адрес с информацией о сервисе.
   return { #Из fastAPI в JSON.
     "service": settings.app_name,
     "version": "1.0.0",
@@ -89,16 +87,14 @@ async def root():
 
 @app.get("/health")
 async def health():
-  """
-  Проверка работоспособности сайта.
-  """
+  # Проверка работоспособности сайта.
   return {"status": "ok"}
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
       "main:app",
-      host="0.0.0.0", #Доступен с любого IP
-      port=8000, #Для нахождения FastAPI
-      reload=settings.debug #При изменении кода сервер перезапускаеся.
+      host="0.0.0.0", # Доступен с любого IP
+      port=8000, # Для нахождения FastAPI
+      reload=settings.debug # При изменении кода сервер перезапускаеся.
     )

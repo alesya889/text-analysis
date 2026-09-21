@@ -1,8 +1,6 @@
 from pydantic_settings import BaseSettings #Проверять типы int, str..import
 class Settings(BaseSettings): #Settings - класс, носит то, что носит BaseSettings
-  """
-  Настройки приложения.
-  """
+  # Настройки приложения.
   app_name: str = "Text-Analysis"
   debug: bool = False #Режим отладки, показывающий ошибки.
   redis_url: str = "redis://localhost:6379/0" #Адрес редис для хранения памяти.
