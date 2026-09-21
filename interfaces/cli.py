@@ -38,7 +38,7 @@ def sendTextToApi(text):
   response = httpx.post(
 f'{API_URL}/analyze',
     json={'text': text},
-    trust_env=False
+    trust_env=False #игнорировать системные прокси
   )
 
   showResponse(response)
@@ -52,7 +52,7 @@ def analyzeFile(filePath):
   sendTextToApi(text)
 
 def analyzeBatchFile(filePath):
-  # Читаем несколько текстов из файла и отправляем их в API.
+  #Читаем несколько текстов из файла и отправляем их в API.
 
   with open(filePath, 'r', encoding = 'utf-8') as file:
     texts = [line.strip() for line in file if line.strip()]
@@ -68,7 +68,7 @@ f'{API_URL}/analyze-batch',
 def showResponse(response):
   # Показываем ответ API пользователю.
 
-  if response.status_code >= 400:
+  if response.status_code >= 400: #проверяет есть ли ошибка
     click.echo(f'Ошибка {response.status_code}: {response.text}')
     return
 

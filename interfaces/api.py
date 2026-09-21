@@ -100,7 +100,7 @@ def healthCheck():
 
 
 @app.post('/analyze', response_model=Analysis_Response)
-@limiter.limit('60/minute')
+@limiter.limit('60/minute') #ограничение частоты запросов
 def analyzeText(
         request: Request,
         analysisRequest: Analysis_Request,
@@ -138,7 +138,7 @@ def analyzeText(
   }
 
 @app.post('/analyze-batch', response_model=Batch_Response)
-@limiter.limit('60/minute')
+@limiter.limit('60/minute') #ограничение частоты запросов
 def analyzeBatch(request: Request,
                  batchRequest: Batch_Request,
                  lang_detector=Depends(get_language_detector),

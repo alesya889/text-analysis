@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 import interfaces.api as api
 from interfaces.api import app
 
-#Фейковый кэш вместо Redis.
+#Фейковый кэш вместо Redis для скорости и независимости тестов.
 
 class FakeCacheService:
   def __init__(self):
@@ -17,9 +17,9 @@ class FakeCacheService:
 api.cacheService = FakeCacheService()
 client = TestClient(app)
 
-#/health
 
 def testHealth():
+  #Базовая проверка.
   response = client.get('/health')
 
   assert response.status_code == 200
@@ -31,6 +31,7 @@ def testHealth():
 #/analyze
 
 def testAnalyzeText():
+  #Тест успешного анализа одного текста
   response = client.post(
     '/analyze',
     json={
@@ -69,7 +70,7 @@ def testAnalyzeText():
   assert 'avg_sentence_length' in stats
   assert 'avg_word_syllables' in stats
 
-
+#Тесты валидации.
 def testAnalyzeEmptyText():
   response = client.post(
     '/analyze',
@@ -100,7 +101,7 @@ def testAnalyzeMissingText():
 
   assert response.status_code == 422
 
-#Проверка кэша
+#Проверка кэша.
 
 def testAnalyzeCachedText():
   text = 'This is a cached text.'
@@ -137,6 +138,7 @@ def testAnalyzeCachedText():
 
 
 def testAnalyzeBatch():
+  #Тест пакетного анализа.
   response = client.post(
     '/analyze-batch',
     json={
@@ -187,7 +189,7 @@ def testAnalyzeBatchEmptyList():
 
   assert response.status_code == 422
 
-
+#Тесты валидации пакетного анализа.
 def testAnalyzeBatchWithEmptyText():
   response = client.post(
     '/analyze-batch',
