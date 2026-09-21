@@ -5,6 +5,7 @@ from domain.types import Languages_Used
 
 
 def test_fleschIndex_english():
+  # Проверяет индекс Флеша для английского текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -18,6 +19,7 @@ def test_fleschIndex_english():
 
 
 def test_fleschIndex_zero_values():
+  # Проверяет индекс Флеша при нулевых значениях.
   stats = TextStats(
     sentence_count=0,
     word_count=0,
@@ -30,6 +32,7 @@ def test_fleschIndex_zero_values():
 
 
 def test_fleschIndex_very_long():
+  # Проверяет индекс Флеша для очень длинного текста.
   stats = TextStats(
     sentence_count=1,
     word_count=100,
@@ -42,6 +45,7 @@ def test_fleschIndex_very_long():
 
 
 def test_fleschIndex_russian():
+  # Проверяет индекс Флеша для русского текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -55,6 +59,7 @@ def test_fleschIndex_russian():
 
 
 def test_fleschIndex_german():
+  # Проверяет индекс Флеша для немецкого текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -68,6 +73,7 @@ def test_fleschIndex_german():
 
 
 def test_fleschIndex_french():
+  # Проверяет индекс Флеша для французского текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -81,6 +87,7 @@ def test_fleschIndex_french():
 
 
 def test_fleschKincaid_english():
+  # Проверяет индекс Флеша-Кинкейда для английского текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -94,6 +101,7 @@ def test_fleschKincaid_english():
 
 
 def test_fleschKincaid_german():
+  # Проверяет индекс Флеша-Кинкейда для немецкого текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -107,6 +115,7 @@ def test_fleschKincaid_german():
 
 
 def test_fleschKincaid_frehch():
+  # Проверяет индекс Флеша-Кинкейда для французского текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -120,6 +129,7 @@ def test_fleschKincaid_frehch():
 
 
 def test_fleschKincaid_russian():
+  # Проверяет индекс Флеша-Кинкейда для русского текста.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -132,6 +142,7 @@ def test_fleschKincaid_russian():
 
 
 def test_fleschIndex_unsupported_language():
+  # Проверяет ошибку при неподдерживаемом языке для индекса Флеша.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -139,11 +150,12 @@ def test_fleschIndex_unsupported_language():
     avg_sentence_length=5.0,
     avg_word_syllables=1.5,
   )
-  with pytest.raises(ValueError, match="Unsupported language"):
-    fleschIndex(stats, "spanish")
+  with pytest.raises(ValueError, match='Unsupported language'):
+    fleschIndex(stats, 'spanish')
 
 
 def test_fleschKincaid_unsupported_language():
+  # Проверяет ошибку при неподдерживаемом языке для индекса Флеша-Кинкейда.
   stats = TextStats(
     sentence_count=2,
     word_count=10,
@@ -151,5 +163,5 @@ def test_fleschKincaid_unsupported_language():
     avg_sentence_length=5.0,
     avg_word_syllables=1.5,
   )
-  with pytest.raises(ValueError, match="Unsupported language"):
-    fleschKincaid(stats, "spanish")
+  with pytest.raises(ValueError, match='Unsupported language'):
+    fleschKincaid(stats, 'spanish')
