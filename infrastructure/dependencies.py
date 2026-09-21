@@ -4,7 +4,7 @@ from infrastructure.sentiment import analyzeSentiment
 
 #Функции-поставщики (Providers).
 def get_language_detector():
-    return detectLanguage
+  return detectLanguage
 
 def get_sentiment_analyzer():
-    return analyzeSentiment
+  return analyzeSentiment

@@ -20,21 +20,21 @@ client = TestClient(app)
 #/health
 
 def test_health():
-  response = client.get("/health")
+  response = client.get('/health')
 
   assert response.status_code == 200
 
   data = response.json()
 
-  assert data["status"] == "ok"
+  assert data['status'] == 'ok'
 
 #/analyze
 
 def test_analyze_text():
   response = client.post(
-    "/analyze",
+    '/analyze',
     json={
-      "text": "Hello, this is a simple test."
+      'text': 'Hello, this is a simple test.'
     }
   )
 
@@ -43,38 +43,38 @@ def test_analyze_text():
   data = response.json()
 
   #Проверяем ответ верхнего уровня
-  assert data["status"] == "success"
-  assert data["cached"] is False
-  assert "processing_time" in data
+  assert data['status'] == 'success'
+  assert data['cached'] is False
+  assert 'processing_time' in data
 
   #Проверяем result
-  result = data["result"]
+  result = data['result']
 
-  assert "language" in result
-  assert "flesch_index" in result
-  assert "flesch_kincaid" in result
-  assert "interpretation" in result
-  assert "polarity" in result
-  assert "subjectivity" in result
-  assert "lexical_diversity" in result
-  assert "rare_word_density" in result
-  assert "stats" in result
+  assert 'language' in result
+  assert 'flesch_index' in result
+  assert 'flesch_kincaid' in result
+  assert 'interpretation' in result
+  assert 'polarity' in result
+  assert 'subjectivity' in result
+  assert 'lexical_diversity' in result
+  assert 'rare_word_density' in result
+  assert 'stats' in result
 
   #Проверяем статистику
-  stats = result["stats"]
+  stats = result['stats']
 
-  assert "sentence_count" in stats
-  assert "word_count" in stats
-  assert "syllable_count" in stats
-  assert "avg_sentence_length" in stats
-  assert "avg_word_syllables" in stats
+  assert 'sentence_count' in stats
+  assert 'word_count' in stats
+  assert 'syllable_count' in stats
+  assert 'avg_sentence_length' in stats
+  assert 'avg_word_syllables' in stats
 
 
 def test_analyze_empty_text():
   response = client.post(
-    "/analyze",
+    '/analyze',
     json={
-      "text": ""
+      'text': ''
     }
   )
 
@@ -83,9 +83,9 @@ def test_analyze_empty_text():
 
 def test_analyze_whitespace_text():
   response = client.post(
-    "/analyze",
+    '/analyze',
     json={
-      "text": "     "
+      'text': '     '
     }
   )
 
@@ -94,7 +94,7 @@ def test_analyze_whitespace_text():
 
 def test_analyze_missing_text():
   response = client.post(
-    "/analyze",
+    '/analyze',
     json={}
   )
 
@@ -103,13 +103,13 @@ def test_analyze_missing_text():
 #Проверка кэша
 
 def test_analyze_cached_text():
-  text = "This is a cached text."
+  text = 'This is a cached text.'
 
   #Первый запрос
   response1 = client.post(
-    "/analyze",
+    '/analyze',
     json={
-      "text": text
+      'text': text
     }
   )
 
@@ -117,13 +117,13 @@ def test_analyze_cached_text():
 
   data1 = response1.json()
 
-  assert data1["cached"] is False
+  assert data1['cached'] is False
 
   #Второй запрос
   response2 = client.post(
-    "/analyze",
+    '/analyze',
     json={
-      "text": text
+      'text': text
     }
   )
 
@@ -131,18 +131,18 @@ def test_analyze_cached_text():
 
   data2 = response2.json()
 
-  assert data2["cached"] is True
+  assert data2['cached'] is True
 
 #/analyze-batch
 
 
 def test_analyze_batch():
   response = client.post(
-    "/analyze-batch",
+    '/analyze-batch',
     json={
-      "texts": [
-        "Hello, this is the first text.",
-        "Hello, this is the second text."
+      'texts': [
+        'Hello, this is the first text.',
+        'Hello, this is the second text.'
       ]
     }
   )
@@ -152,36 +152,36 @@ def test_analyze_batch():
   data = response.json()
 
   #Проверяем основной ответ
-  assert data["status"] == "success"
-  assert "results" in data
-  assert "cached" in data
-  assert "total_time" in data
+  assert data['status'] == 'success'
+  assert 'results' in data
+  assert 'cached' in data
+  assert 'total_time' in data
 
   #Должно быть 2 результата
-  assert len(data["results"]) == 2
+  assert len(data['results']) == 2
 
   #Для каждого текста должен быть свой cached
-  assert len(data["cached"]) == 2
+  assert len(data['cached']) == 2
 
   #Проверяем первый результат
-  result = data["results"][0]
+  result = data['results'][0]
 
-  assert "language" in result
-  assert "flesch_index" in result
-  assert "flesch_kincaid" in result
-  assert "interpretation" in result
-  assert "polarity" in result
-  assert "subjectivity" in result
-  assert "lexical_diversity" in result
-  assert "rare_word_density" in result
-  assert "stats" in result
+  assert 'language' in result
+  assert 'flesch_index' in result
+  assert 'flesch_kincaid' in result
+  assert 'interpretation' in result
+  assert 'polarity' in result
+  assert 'subjectivity' in result
+  assert 'lexical_diversity' in result
+  assert 'rare_word_density' in result
+  assert 'stats' in result
 
 
 def test_analyze_batch_empty_list():
   response = client.post(
-    "/analyze-batch",
+    '/analyze-batch',
     json={
-      "texts": []
+      'texts': []
     }
   )
 
@@ -190,11 +190,11 @@ def test_analyze_batch_empty_list():
 
 def test_analyze_batch_with_empty_text():
   response = client.post(
-    "/analyze-batch",
+    '/analyze-batch',
     json={
-      "texts": [
-        "Hello world.",
-        ""
+      'texts': [
+        'Hello world.',
+        ''
       ]
     }
   )
@@ -204,11 +204,11 @@ def test_analyze_batch_with_empty_text():
 
 def test_analyze_batch_with_whitespace_text():
   response = client.post(
-    "/analyze-batch",
+    '/analyze-batch',
     json={
-      "texts": [
-        "Hello world.",
-        "     "
+      'texts': [
+        'Hello world.',
+        '     '
       ]
     }
   )
@@ -218,7 +218,7 @@ def test_analyze_batch_with_whitespace_text():
 
 def test_analyze_batch_missing_texts():
   response = client.post(
-    "/analyze-batch",
+    '/analyze-batch',
     json={}
   )
 
