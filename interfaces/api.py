@@ -1,20 +1,21 @@
-import time, logging
+import logging
+import time
 
-from slowapi import Limiter
-from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
-from slowapi.extension import _rate_limit_exceeded_handler
-
-from fastapi import FastAPI, Request, Depends
+from fastapi import Depends, FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from slowapi import Limiter
+from slowapi.errors import RateLimitExceeded
+from slowapi.extension import _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
 
 from application.use_cases import analyzeTextService
 from infrastructure.cache import Cache_Service
-from interfaces.schemas import Analysis_Request, Batch_Request, Analysis_Response, Batch_Response
-from infrastructure.dependencies import get_language_detector, get_sentiment_analyzer
-
-from fastapi.exceptions import RequestValidationError
+from infrastructure.dependencies import (get_language_detector,
+                                         get_sentiment_analyzer)
+from interfaces.schemas import (Analysis_Request, Analysis_Response,
+                                Batch_Request, Batch_Response)
 
 app = FastAPI(title='Text Analyzer')
 

@@ -1,10 +1,13 @@
 import re
-from domain.types import TextStats, AnalysisResult, Languages_Used, Polarity, Difficulty_Level
-from domain.interfaces import SyllableCounter, SentimentAnalyzer, LanguageDetector
+
+from domain.interfaces import (LanguageDetector, SentimentAnalyzer,
+                               SyllableCounter)
+from domain.types import (AnalysisResult, Difficulty_Level, Languages_Used,
+                          TextStats)
+from infrastructure.dictionaries import (rareDictDe, rareDictEn, rareDictFr,
+                                         rareDictRu)
 from infrastructure.flesch_calculators import fleschIndex, fleschKincaid
-from infrastructure.language_detector import detectLanguage
 from infrastructure.syllable_counters import getSyllableCounter
-from infrastructure.dictionaries import rareDictRu, rareDictEn, rareDictFr, rareDictDe
 
 
 def validateText(text: str) -> None:

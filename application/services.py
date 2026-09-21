@@ -1,10 +1,6 @@
+from domain.interfaces import (LanguageDetector, SentimentAnalyzer,
+                               SyllableCounter, TextValidator)
 from domain.types import Languages_Used
-from domain.interfaces import (
-  SyllableCounter,
-  LanguageDetector,
-  SentimentAnalyzer,
-  TextValidator,
-)
 
 
 def getSyllableCounter(lang: Languages_Used) -> SyllableCounter:

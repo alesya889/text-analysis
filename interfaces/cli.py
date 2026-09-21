@@ -1,4 +1,7 @@
-import json, click, httpx
+import json
+
+import click
+import httpx
 
 API_URL = 'http://127.0.0.1:8000'
 
