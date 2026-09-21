@@ -5,6 +5,9 @@ from enum import Enum #Для фиксированных наборов знач
 from typing import Dict, Tuple
 
 class Languages_Used(Enum):
+  """
+  Все поддерживаемые языки.
+  """
   ENGLISH = 'English'
   RUSSIAN = 'Russian'
   GERMAN = 'German'
@@ -16,10 +19,10 @@ class Polarity(Enum):
   Neutral = 'neutral'
 
 class Difficulty_Level(Enum):
-  Very_Easy = 'very_easy'
+  Very_Easy = 'very easy'
   Easy = 'easy'
   Hard = 'hard'
-  Very_Hard = 'very_hard'
+  Very_Hard = 'very hard'
 
 FleshCoefficients: Dict[Languages_Used, Tuple[float, float, float]] = {
   Languages_Used.ENGLISH: (206.835, 1.015, 84.6),
@@ -90,4 +93,3 @@ class AnalysisResult:
       rare_word_density=data["rare_word_density"],
       stats=stats,
     )
-

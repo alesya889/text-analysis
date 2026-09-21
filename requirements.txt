@@ -1,8 +1,8 @@
-txt
-fastapi==0.104.1
+fastapi
 uvicorn[standard]==0.24.0
 redis==5.0.1
 click==8.1.7
+pydantic
 pydantic-settings==2.1.0
 python-dotenv==1.0.0
 textblob==0.17.1

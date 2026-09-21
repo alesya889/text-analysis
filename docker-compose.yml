@@ -1,4 +1,4 @@
-version: '3.8' #Версия докера.
+#version: '3.8' #Версия докера.
 
 services:
   redis: #Сервис, все запускают одно приложение.
@@ -21,9 +21,9 @@ services:
     ports:
       - "8000:8000" #FastAPI
     environment:
-      - REDIS_URL = redis://redis:6379/0
-      - DEBUG = False
-      - LOG_LEVEL = INFO
+      - REDIS_URL=redis://redis:6379/0
+      - DEBUG=False
+      - LOG_LEVEL=INFO
     depends_on:
       redis:
         condition: service_healthy #Приложение не запустится, пока редис не пройдёт хелзчек.
