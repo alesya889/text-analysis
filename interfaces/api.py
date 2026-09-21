@@ -14,7 +14,21 @@ from infrastructure.cache import Cache_Service
 from interfaces.schemas import Analysis_Request, Batch_Request, Analysis_Response, Batch_Response
 from infrastructure.dependencies import get_language_detector, get_sentiment_analyzer
 
+from fastapi.exceptions import RequestValidationError
+
 app = FastAPI(title='Text Analyzer')
+
+@app.exception_handler(RequestValidationError)
+async def validationErrorHandler(request: Request, exc: RequestValidationError):
+    """Превращает 422 в 400 для пустого текста"""
+    return JSONResponse(
+        status_code=400,
+        content={
+            "status": "error",
+            "message": "Invalid request data"
+        }
+    )
+
 
 limiter = Limiter(key_func = get_remote_address)
 
@@ -115,7 +129,7 @@ def analyzeText(
   if cachedResult:
       return {
           'status': 'success',
-          'result': cachedResult,
+          'result': cachedResult.to_dict(),
           'cached': True,
           'processing_time': 0.0
       }
@@ -154,7 +168,7 @@ def analyzeBatch(request: Request,
     cachedResult = cacheService.getCachedResult(text)
 
     if cachedResult:
-      results.append(cachedResult)
+      results.append(cachedResult.to_dict())
       cachedResults.append(True)
       continue
 

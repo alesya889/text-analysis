@@ -54,6 +54,7 @@ class AnalysisResult:
   lexical_diversity: float #Лексическое разнообразие.
   rare_word_density: float #Плотность редких слов.
   stats: TextStats #Статистика текста.
+  sentiment: str = "neutral" #Настроение.
 
   def to_dict(self):
     """"
@@ -69,6 +70,7 @@ class AnalysisResult:
       "subjectivity": round(self.subjectivity, 2),
       "lexical_diversity": round(self.lexical_diversity, 2),
       "rare_word_density": round(self.rare_word_density, 2),
+      "sentiment": self.sentiment,
       "stats": {
           "sentence_count": self.stats.sentence_count,
           "word_count": self.stats.word_count,
@@ -100,5 +102,6 @@ class AnalysisResult:
       lexical_diversity=data["lexical_diversity"],
       rare_word_density=data["rare_word_density"],
       stats=stats,
+      sentiment=data.get("sentiment", "neutral"),
     )
 

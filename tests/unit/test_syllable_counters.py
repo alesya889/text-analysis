@@ -10,8 +10,10 @@ from domain.types import Languages_Used
 
 """Tests for counting syllables in different languages"""
 
+
 class TestCountSyllablesEn:
   """Тесты для английского языка"""
+
   def test_simple_words(self):
     """Тест: простые слова"""
     assert countSyllablesEn('hello') == 2
@@ -117,6 +119,7 @@ class TestGetSyllableCounter:
     counter = getSyllableCounter(Languages_Used.FRANCE)
     assert counter is not None
     assert counter("bonjour") == 2
+
 
 def test_empty_string(emptyString):
   """Тест: пустая строка"""

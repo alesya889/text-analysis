@@ -173,6 +173,7 @@ def analyzeTextService(text: str,
     else:
         freqDict = rareDictEn
     rareDensity = rareWordDensity(text, freqDict)
+    sentiment_value = polarity.value
 
     return AnalysisResult(
         language=lang,
@@ -183,6 +184,7 @@ def analyzeTextService(text: str,
         subjectivity=subj,
         lexical_diversity=diversity,
         rare_word_density=rareDensity,
+        sentiment=sentiment_value,
         stats=stats
     )
 
